@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+  <div class="container px-4 px-lg-5">
+
+    <a class="navbar-brand" routerLink="/">
+      <img src="assets/images/favicon.png" alt="FutShirt Logo" style="height: 110px;">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+
+        <li class="nav-item me-3">
+          <a class="nav-link active fs-5 text-white" aria-current="page" routerLink="/">Home</a>
+        </li>
+
+        <li class="nav-item dropdown me-3">
+          <a class="nav-link dropdown-toggle fs-5 text-white" id="camisasDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Camisas
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="camisasDropdown" style="background-color: black;">
+            <li><a class="dropdown-item fs-6 text-white" routerLink="/camisas/brasileirao">Camisas Brasileirão</a></li>
+            <li><a class="dropdown-item fs-6 text-white" routerLink="/camisas/europa">Camisas Europa</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item me-3">
+          <a class="nav-link fs-5 text-white" routerLink="/sobre-nos">Sobre Nós</a>
+        </li>
+
+        <li class="nav-item me-3">
+          <a class="nav-link fs-5 text-white" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">ADM</a>
+        </li>
+
+        <form class="d-flex me-4">
+          <a routerLink="/carrinho" class="btn btn-outline-light d-flex align-items-center">
+            <i class="bi-cart-fill me-1"></i>
+            Carrinho
+          </a>
+        </form>
+      </ul>
+
+      <div class="d-flex">
+        <a routerLink="/login" class="btn btn-outline-light me-2 d-flex align-items-center">
+          <i class="bi-person-fill me-1"></i> Entrar
+        </a>
+        <a routerLink="/cadastrar" class="btn btn-outline-light">
+          Cadastrar-se
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  </div>

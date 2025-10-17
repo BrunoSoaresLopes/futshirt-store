@@ -1,0 +1,40 @@
+<section class="py-5" style="background-color: #0A2A08;">
+
+  <h1 class="text-white text-center mb-5">Camisas Brasileirão</h1>
+
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+      <div *ngFor="let produto of listaProdutos" class="col mb-5 text-white">
+        <div style="background-color: #0A2A08;" class="card h-100 border-0">
+
+          <img class="card-img-top" [src]="produto.imagemUrl" [alt]="produto.nome" />
+
+          <div class="card-body p-4">
+            <div class="text-center">
+
+              <h5 class="fw-bolder">{{ produto.nome }}</h5>
+
+              <div class="d-flex justify-content-center small text-warning mb-2">
+                <div class="bi-star-fill"></div>
+                <div class="bi-star-fill"></div>
+                <div class="bi-star-fill"></div>
+                <div class="bi-star-fill"></div>
+                <div class="bi-star-fill"></div>
+              </div>
+
+              {{ produto.preco | currency:'BRL' }}
+
+            </div>
+          </div>
+
+          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="text-center">
+              <a class="btn btn-outline-light mt-auto" href="#">Adicionar ao carrinho</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+</section>
