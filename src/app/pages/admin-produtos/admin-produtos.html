@@ -1,0 +1,37 @@
+<section class="py-5 text-white" style="background-color: #0A2A08;">
+  <div class="container px-5">
+    <h2 class="text-center mb-4">Adicionar Novo Produto</h2>
+
+    <form (ngSubmit)="onSubmit()" #produtoForm="ngForm">
+      <br><br><br><br><br><br>
+      <div class="mb-3">
+        <label for="nomeProduto" class="form-label">Nome do Produto</label>
+        <input type="text" class="form-control" id="nomeProduto" name="nomeProduto"
+               [(ngModel)]="nomeProduto" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="precoProduto" class="form-label">Preço (R$)</label>
+        <input type="number" class="form-control" id="precoProduto" name="precoProduto"
+               [(ngModel)]="precoProduto" required min="0.01">
+      </div>
+
+      <div class="mb-3">
+        <label for="imagemUrlProduto" class="form-label">URL da Imagem</label>
+        <input type="text" class="form-control" id="imagemUrlProduto" name="imagemUrlProduto"
+               [(ngModel)]="imagemUrlProduto" required placeholder="Ex: assets/images/camisas/br/nova.png">
+      </div>
+
+       <div class="mb-3">
+        <label for="tipoProduto" class="form-label">Tipo</label>
+        <select class="form-select" id="tipoProduto" name="tipoProduto" [(ngModel)]="tipoProduto" required>
+          <option value="brasileirao">Brasileirão</option>
+          <option value="europa">Europa</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-success" [disabled]="!produtoForm.form.valid">Adicionar Produto</button>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </form>
+  </div>
+</section>

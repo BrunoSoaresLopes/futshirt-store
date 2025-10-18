@@ -10825,7 +10825,7 @@ textarea.form-control-lg {
   }
 }
 html, body {
-  height: 100%;
+  height: 100%; /* Garante que html e body ocupem toda a altura */
   margin: 0;
   padding: 0;
 }
