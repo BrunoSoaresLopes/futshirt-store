@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Produto } from '../models/produto.model'; // Verifique se este caminho está correto
+import { Produto } from '../models/produto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdutoService {
 
-  // Simula o próximo ID a ser gerado pelo "banco de dados"
   private proximoId = 19;
 
-  // Lista estática de dados fictícios (mock objects) [cite: 14, 20, 21, 22]
   private produtos: Produto[] = [
     // Brasileirão
     { id: 1, nome: 'Santos', preco: 350.00, imagemUrl: 'assets/images/camisas/br/santos.png', tipo: 'brasileirao' },
@@ -34,42 +32,39 @@ export class ProdutoService {
   ];
 
   constructor() { }
+  getTodosProdutos(): Produto[] {
+    console.log("Buscando todos os produtos...");
+    return [...this.produtos];
+  }
 
-  // --- MÉTODOS DE LEITURA ---
-
-  /** Retorna todos os produtos do tipo Brasileirão */
   getProdutosBrasileirao(): Produto[] {
     console.log("Buscando produtos Brasileirão...");
     return this.produtos.filter(p => p.tipo === 'brasileirao');
   }
 
-  /** Retorna todos os produtos do tipo Europa */
   getProdutosEuropa(): Produto[] {
     console.log("Buscando produtos Europa...");
     return this.produtos.filter(p => p.tipo === 'europa');
   }
 
-  /** Busca um produto pelo ID (exemplo de busca específica) */
   getProdutoPorId(id: number): Produto | undefined {
     return this.produtos.find(p => p.id === id);
   }
 
   // --- MÉTODO DE CRIAÇÃO (CADASTRO) ---
-  /** Adiciona um novo produto à lista */
   adicionarProduto(novoProdutoDados: Omit<Produto, 'id'>): Produto {
     const produtoComId: Produto = {
       ...novoProdutoDados,
-      id: this.proximoId++ // Atribui o próximo ID e incrementa
+      id: this.proximoId++
     };
     this.produtos.push(produtoComId);
     console.log('Produto adicionado (simulado):', produtoComId);
     console.log('Lista atualizada:', this.produtos);
     alert(`Produto ${produtoComId.nome} adicionado com sucesso! (ID: ${produtoComId.id})`);
-    return produtoComId; // Retorna o produto criado com ID
+    return produtoComId;
   }
 
   // --- MÉTODO DE ATUALIZAÇÃO (EDIÇÃO) ---
-  /** Atualiza um produto existente na lista */
   atualizarProduto(produtoAtualizado: Produto): boolean {
     const index = this.produtos.findIndex(p => p.id === produtoAtualizado.id);
     if (index !== -1) {
@@ -77,15 +72,14 @@ export class ProdutoService {
       console.log('Produto atualizado (simulado):', produtoAtualizado);
       console.log('Lista atualizada:', this.produtos);
       alert(`Produto ${produtoAtualizado.nome} atualizado com sucesso!`);
-      return true; // Indica sucesso
+      return true;
     }
     console.warn(`Produto com ID ${produtoAtualizado.id} não encontrado para atualização.`);
     alert(`Erro: Produto com ID ${produtoAtualizado.id} não encontrado!`);
-    return false; // Indica falha
+    return false;
   }
 
   // --- MÉTODO DE EXCLUSÃO ---
-  /** Remove um produto da lista pelo ID */
   excluirProduto(id: number): boolean {
     const index = this.produtos.findIndex(p => p.id === id);
     if (index !== -1) {
@@ -93,19 +87,18 @@ export class ProdutoService {
       console.log('Produto removido (simulado):', produtoRemovido);
       console.log('Lista atualizada:', this.produtos);
       alert(`Produto ${produtoRemovido.nome} (ID: ${id}) removido com sucesso!`);
-      return true; // Indica sucesso
+      return true;
     }
     console.warn(`Produto com ID ${id} não encontrado para exclusão.`);
     alert(`Erro: Produto com ID ${id} não encontrado!`);
-    return false; // Indica falha
+    return false;
   }
 
   // --- MÉTODO DE PESQUISA ---
-  /** Busca produtos cujo nome contenha o termo pesquisado (case-insensitive) */
   buscarProdutoPorNome(termo: string): Produto[] {
     const termoBusca = termo.toLowerCase().trim();
     if (!termoBusca) {
-      return []; // Retorna vazio se o termo for vazio
+      return [];
     }
     const resultados = this.produtos.filter(p =>
       p.nome.toLowerCase().includes(termoBusca)

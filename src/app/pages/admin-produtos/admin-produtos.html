@@ -1,37 +1,85 @@
 <section class="py-5 text-white" style="background-color: #0A2A08;">
   <div class="container px-5">
-    <h2 class="text-center mb-4">Adicionar Novo Produto</h2>
-
-    <form (ngSubmit)="onSubmit()" #produtoForm="ngForm">
-      <br><br><br><br><br><br>
-      <div class="mb-3">
-        <label for="nomeProduto" class="form-label">Nome do Produto</label>
-        <input type="text" class="form-control" id="nomeProduto" name="nomeProduto"
-               [(ngModel)]="nomeProduto" required>
+    <br><br><br><br><br>
+    <div class="card mb-5 bg-dark text-white">
+      <div class="card-header">
+        <h2 class="text-center mb-0">Adicionar Novo Produto</h2>
       </div>
-
-      <div class="mb-3">
-        <label for="precoProduto" class="form-label">Preço (R$)</label>
-        <input type="number" class="form-control" id="precoProduto" name="precoProduto"
-               [(ngModel)]="precoProduto" required min="0.01">
+      <div class="card-body">
+        <form (ngSubmit)="onSubmitAdicionar()" #produtoForm="ngForm">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="nomeProduto" class="form-label">Nome</label>
+              <input type="text" class="form-control" id="nomeProduto" name="nomeProduto" [(ngModel)]="nomeProduto" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="precoProduto" class="form-label">Preço (R$)</label>
+              <input type="number" class="form-control" id="precoProduto" name="precoProduto" [(ngModel)]="precoProduto" required min="0.01" step="0.01">
+            </div>
+          </div>
+          <div class="row">
+             <div class="col-md-6 mb-3">
+              <label for="tipoProduto" class="form-label">Tipo</label>
+              <select class="form-select" id="tipoProduto" name="tipoProduto" [(ngModel)]="tipoProduto" required>
+                <option value="brasileirao">Brasileirão</option>
+                <option value="europa">Europa</option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="imagemUrlProduto" class="form-label">URL da Imagem</label>
+              <input type="text" class="form-control" id="imagemUrlProduto" name="imagemUrlProduto" [(ngModel)]="imagemUrlProduto" required placeholder="Ex: assets/images/camisas/br/nova.png">
+            </div>
+          </div>
+          <div class="text-center">
+             <button type="submit" class="btn btn-success" [disabled]="!produtoForm.form.valid">Adicionar Produto</button>
+          </div>
+        </form>
       </div>
+    </div>
 
-      <div class="mb-3">
-        <label for="imagemUrlProduto" class="form-label">URL da Imagem</label>
-        <input type="text" class="form-control" id="imagemUrlProduto" name="imagemUrlProduto"
-               [(ngModel)]="imagemUrlProduto" required placeholder="Ex: assets/images/camisas/br/nova.png">
-      </div>
+    <hr class="border-light my-5">
 
-       <div class="mb-3">
-        <label for="tipoProduto" class="form-label">Tipo</label>
-        <select class="form-select" id="tipoProduto" name="tipoProduto" [(ngModel)]="tipoProduto" required>
-          <option value="brasileirao">Brasileirão</option>
-          <option value="europa">Europa</option>
-        </select>
-      </div>
+    <h2 class="text-center mb-4">Gerenciar Produtos</h2>
 
-      <button type="submit" class="btn btn-success" [disabled]="!produtoForm.form.valid">Adicionar Produto</button>
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    </form>
-  </div>
-</section>
+    <div class="input-group mb-4">
+      <input type="text" class="form-control" placeholder="Buscar produto por nome..."
+             [(ngModel)]="termoBusca" (input)="buscarProdutos()">
+      <button class="btn btn-outline-light" type="button" (click)="buscarProdutos()">Buscar</button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-dark table-striped table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Imagem</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let produto of produtosExibidos">
+            <th scope="row">{{ produto.id }}</th>
+            <td>
+              <img [src]="produto.imagemUrl" [alt]="produto.nome" style="width: 50px; height: auto;">
+            </td>
+            <td>{{ produto.nome }}</td>
+            <td>{{ produto.preco | currency:'BRL' }}</td>
+            <td>{{ produto.tipo }}</td>
+            <td>
+              <button class="btn btn-sm btn-danger" (click)="excluir(produto.id)">
+                <i class="bi bi-trash-fill"></i> Excluir
+              </button>
+              <button class="btn btn-sm btn-warning ms-2" disabled>
+                 <i class="bi bi-pencil-fill"></i> Editar
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="produtosExibidos.length === 0">
+            <td colspan="6" class="text-center fst-italic">Nenhum produto encontrado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div> </div> </section>
