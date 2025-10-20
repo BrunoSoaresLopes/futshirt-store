@@ -13,6 +13,7 @@ import { CamisasEuropa } from './pages/camisas-europa/camisas-europa';
 import { NavbarComponent } from './components/navbar/navbar';
 import { FooterComponent } from './components/footer/footer';
 import { AdminProdutos} from './pages/admin-produtos/admin-produtos';
+import { Carrinho } from './pages/carrinho/carrinho';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AdminProdutos} from './pages/admin-produtos/admin-produtos';
     CamisasEuropa,
     NavbarComponent,
     FooterComponent,
-    AdminProdutos
+    AdminProdutos,
+    Carrinho
   ],
   imports: [
     BrowserModule,
