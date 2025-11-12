@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
+import { CommonModule } from '@angular/common';
+
 
 import { HomeComponent } from './pages/home/home';
 import { LoginComponent } from './pages/login/login';
@@ -13,7 +15,7 @@ import { CamisasEuropa } from './pages/camisas-europa/camisas-europa';
 import { NavbarComponent } from './components/navbar/navbar';
 import { FooterComponent } from './components/footer/footer';
 import { AdminProdutos} from './pages/admin-produtos/admin-produtos';
-import { Carrinho } from './pages/carrinho/carrinho';
+import { CarrinhoComponent } from './pages/carrinho/carrinho';
 
 @NgModule({
   declarations: [
@@ -27,12 +29,14 @@ import { Carrinho } from './pages/carrinho/carrinho';
     NavbarComponent,
     FooterComponent,
     AdminProdutos,
-    Carrinho
+    CarrinhoComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    FormsModule
+    AppRoutingModule,   // Para <router-outlet>
+    FormsModule,        // Para ngModel e ngForm
+    ReactiveFormsModule, // Para o Trabalho Final
+    CommonModule
   ],
   providers: [],
   bootstrap: [App]

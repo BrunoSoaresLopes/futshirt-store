@@ -1,0 +1,10 @@
+.table th, .table td {
+  border-color: #e9e9e9;
+}
+
+/* Estilo para o botão de Comprar no hover */
+.d-grid button:hover {
+  background-color: #071f06 !important;
+  color: white !important;
+  border-color: #071f06 !important;
+}

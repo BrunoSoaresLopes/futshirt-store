@@ -8,7 +8,7 @@ import { SobreNosComponent } from './pages/sobre-nos/sobre-nos';
 import { CamisasBrasileirao } from './pages/camisas-brasileirao/camisas-brasileirao';
 import { CamisasEuropa } from './pages/camisas-europa/camisas-europa';
 import { AdminProdutos } from './pages/admin-produtos/admin-produtos';
-import { Carrinho } from './pages/carrinho/carrinho';
+import { CarrinhoComponent } from './pages/carrinho/carrinho';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'camisas/brasileirao', component: CamisasBrasileirao },
   { path: 'camisas/europa', component: CamisasEuropa },
   { path: 'admin/produtos', component: AdminProdutos},
-  { path: 'carrinho', component: Carrinho }
+  { path: 'carrinho', component: CarrinhoComponent }
 ];
 
 @NgModule({
