@@ -1,6 +1,5 @@
 <section class="py-5 text-white" style="background-color: #0A2A08; min-height: 60vh;">
   <div class="container px-4 px-lg-5">
-    <br>
 
     <h2 class="text-center mb-4 text-white">Meu Carrinho</h2>
 
@@ -44,7 +43,9 @@
         <div class="d-flex justify-content-end mt-4">
           <div class="text-end">
             <h3 class="mb-3">Total: <span class="fw-bold text-success">{{ total | currency:'BRL' }}</span></h3>
-            <button class="btn btn-primary btn-lg">Finalizar Compra</button>
+            <a routerLink="/finalizar-compra" class="btn btn-primary btn-lg w-100 mt-3">
+             Finalizar Compra
+            </a>
           </div>
         </div>
 
@@ -52,6 +53,7 @@
     </div>
 
     <ng-template #carrinhoVazio>
+      <br>
       <div class="alert alert-light text-center text-dark" role="alert"> Seu carrinho está vazio. Volte para a <a routerLink="/camisas/brasileirao" class="alert-link">loja</a>!
       </div>
     </ng-template>

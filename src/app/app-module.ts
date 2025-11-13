@@ -17,6 +17,7 @@ import { AdminProdutosComponent } from './pages/admin-produtos/admin-produtos';
 import { CarrinhoComponent } from './pages/carrinho/carrinho';
 import { CamisasBrasileirao } from './pages/camisas-brasileirao/camisas-brasileirao';
 import { CamisasEuropa } from './pages/camisas-europa/camisas-europa';
+import { FinalizarCompraComponent } from './pages/finalizar-compra/finalizar-compra';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CamisasEuropa } from './pages/camisas-europa/camisas-europa';
     AdminProdutosComponent,
     CarrinhoComponent,
     CamisasBrasileirao,
-    CamisasEuropa
+    CamisasEuropa,
+    FinalizarCompraComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,7 @@ import { CamisasEuropa } from './pages/camisas-europa/camisas-europa';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule     
+    CommonModule
   ],
   providers: [],
   bootstrap: [App]
