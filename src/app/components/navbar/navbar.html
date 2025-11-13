@@ -36,23 +36,42 @@
           <a class="nav-link fs-5 text-white" routerLink="/admin/produtos">Admin Produtos</a>
         </li>
 
-        <form class="d-flex me-4">
+        <li class="nav-item me-4">
           <a routerLink="/carrinho" class="btn btn-outline-light d-flex align-items-center">
             <i class="bi-cart-fill me-1"></i>
             Carrinho
           </a>
-        </form>
+        </li>
       </ul>
 
-      <div class="d-flex">
-        <button class="btn btn-outline-light me-2 d-flex align-items-center" type="button" routerLink="/login">
-          <i class="bi-person-fill me-1"></i>Entrar
-        </button>
+      <ng-container *ngIf="!(usuarioLogado$ | async)">
+        <div class="d-flex">
+          <a class="btn btn-outline-light me-2 d-flex align-items-center" routerLink="/login">
+            <i class="bi-person-fill me-1"></i>Entrar
+          </a>
+          <a class="btn btn-outline-light" routerLink="/cadastrar">
+            Cadastrar-se
+          </a>
+        </div>
+      </ng-container>
 
-        <button class="btn btn-outline-light" type="button" routerLink="/cadastrar">
-          Cadastrar-se
-        </button>
+      <ng-container *ngIf="(usuarioLogado$ | async) as usuario">
+        <div class="nav-item dropdown">
+
+          <a class="nav-link dropdown-toggle fs-5 text-white" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi-person-fill me-1"></i> Olá, {{ usuario.nome.split(' ')[0] }}
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserDropdown" style="background-color: black;">
+            <li>
+              <a class="dropdown-item fs-6 text-danger" (click)="sair()" style="cursor: pointer;">
+                Sair
+              </a>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+      
       </div>
-    </div>
   </div>
 </nav>

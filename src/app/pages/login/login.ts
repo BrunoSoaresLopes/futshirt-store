@@ -31,25 +31,18 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // Marca todos os campos como "tocados" para exibir erros, se houver
     this.loginForm.markAllAsTouched();
-
     if (this.loginForm.invalid) {
-      // Se o formulário for inválido, não faz nada
       return;
     }
 
     const email = this.loginForm.value.email;
     const senha = this.loginForm.value.senha;
 
-    // Chama o serviço de login (que retorna um Observable)
     this.usuarioService.login(email, senha).subscribe(usuario => {
       if (usuario) {
-        // Sucesso!
-        alert(`Bem-vindo, ${usuario.nome}.`);
-        this.router.navigate(['/']); // Navega para a página Home
+        this.router.navigate(['/']);
       } else {
-        // Falha
         alert('Email ou senha inválidos. Tente novamente.');
       }
     });
