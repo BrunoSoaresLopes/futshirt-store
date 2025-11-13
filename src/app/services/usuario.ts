@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, map } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
+import { CarrinhoService } from './carrinho.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,10 @@ export class UsuarioService {
   private usuarioLogadoSubject = new BehaviorSubject<Usuario | null>(null);
   public usuarioLogado$ = this.usuarioLogadoSubject.asObservable();
 
-  constructor(private http: HttpClient) { } // Injete o HttpClient
+  constructor(
+    private http: HttpClient,
+    private carrinhoService: CarrinhoService
+  ) { } 
 
   /** Retorna o usuário logado atualmente */
   public get usuarioLogado(): Usuario | null {
@@ -50,5 +54,6 @@ export class UsuarioService {
   /** Desloga o usuário */
   logout(): void {
     this.usuarioLogadoSubject.next(null);
+    this.carrinhoService.limparCarrinho();
   }
 }

@@ -11,7 +11,7 @@ export interface CarrinhoItem {
 @Injectable({
   providedIn: 'root'
 })
-export class CarrinhoService { // Verifique se o 'export' está aqui
+export class CarrinhoService {
   private itensCarrinhoSubject: BehaviorSubject<CarrinhoItem[]> = new BehaviorSubject<CarrinhoItem[]>([]);
   public itensCarrinho$: Observable<CarrinhoItem[]> = this.itensCarrinhoSubject.asObservable();
 
@@ -55,5 +55,11 @@ export class CarrinhoService { // Verifique se o 'export' está aqui
     return this.itensCarrinhoSubject.getValue().reduce((total, item) => {
       return total + (item.produto.preco * item.quantidade);
     }, 0);
+  }
+
+  limparCarrinho(): void {
+    this.itensCarrinhoSubject.next([]); 
+    localStorage.removeItem('carrinhoItens');
+    console.log('Carrinho limpo após logout.');
   }
 }
