@@ -6,7 +6,8 @@
     "start": "ng serve --open --watch",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "api": "json-server --watch db.json"
   },
   "prettier": {
     "printWidth": 100,

@@ -1,20 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CamisasEuropa } from './camisas-europa';
 
-// Importar os serviços dos quais o componente depende
 import { ProdutoService } from '../../services/produto';
 import { CarrinhoService } from '../../services/carrinho.service';
 
-// Criar "Mocks" (versões falsas) dos serviços para os testes
 class MockProdutoService {
-  getProdutosEuropa() { // Método específico desta classe
-    return []; // Simplesmente retorna um array vazio para o teste
+  getProdutosEuropa() {
+    return [];
   }
 }
 
 class MockCarrinhoService {
   adicionarItem(produto: any, tamanho: string) {
-    // Não faz nada, é só um mock
   }
 }
 

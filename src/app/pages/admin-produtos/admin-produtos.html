@@ -1,37 +1,65 @@
 <section class="py-5 text-white" style="background-color: #0A2A08;">
   <div class="container px-5">
-    <br><br><br><br><br>
+
     <div class="card mb-5 bg-dark text-white">
       <div class="card-header">
         <h2 class="text-center mb-0">Adicionar Novo Produto</h2>
       </div>
       <div class="card-body">
-        <form (ngSubmit)="onSubmitAdicionar()" #produtoForm="ngForm">
+
+        <form [formGroup]="produtoForm" (ngSubmit)="onSubmitAdicionar()">
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="nomeProduto" class="form-label">Nome</label>
-              <input type="text" class="form-control" id="nomeProduto" name="nomeProduto" [(ngModel)]="nomeProduto" required>
+              <input type="text" class="form-control" id="nomeProduto"
+                     formControlName="nome"
+                     [ngClass]="{ 'is-invalid': f['nome'].invalid && f['nome'].touched }">
+
+              <div *ngIf="f['nome'].invalid && f['nome'].touched" class="invalid-feedback d-block small">
+                <div *ngIf="f['nome'].errors?.['required']">Nome é obrigatório.</div>
+                <div *ngIf="f['nome'].errors?.['minlength']">Nome deve ter no mínimo 3 caracteres.</div>
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <label for="precoProduto" class="form-label">Preço (R$)</label>
-              <input type="number" class="form-control" id="precoProduto" name="precoProduto" [(ngModel)]="precoProduto" required min="0.01" step="0.01">
+              <input type="number" class="form-control" id="precoProduto"
+                     formControlName="preco" min="0.01" step="0.01"
+                     [ngClass]="{ 'is-invalid': f['preco'].invalid && f['preco'].touched }">
+              <div *ngIf="f['preco'].invalid && f['preco'].touched" class="invalid-feedback d-block small">
+                <div *ngIf="f['preco'].errors?.['required']">Preço é obrigatório.</div>
+                <div *ngIf="f['preco'].errors?.['min']">Preço deve ser maior que zero.</div>
+              </div>
             </div>
           </div>
+
           <div class="row">
              <div class="col-md-6 mb-3">
               <label for="tipoProduto" class="form-label">Tipo</label>
-              <select class="form-select" id="tipoProduto" name="tipoProduto" [(ngModel)]="tipoProduto" required>
+              <select class="form-select" id="tipoProduto"
+                      formControlName="tipo"
+                      [ngClass]="{ 'is-invalid': f['tipo'].invalid && f['tipo'].touched }">
                 <option value="brasileirao">Brasileirão</option>
                 <option value="europa">Europa</option>
               </select>
+              <div *ngIf="f['tipo'].invalid && f['tipo'].touched" class="invalid-feedback d-block small">
+                Tipo é obrigatório.
+              </div>
             </div>
             <div class="col-md-6 mb-3">
               <label for="imagemUrlProduto" class="form-label">URL da Imagem</label>
-              <input type="text" class="form-control" id="imagemUrlProduto" name="imagemUrlProduto" [(ngModel)]="imagemUrlProduto" required placeholder="Ex: assets/images/camisas/br/nova.png">
+              <input type="text" class="form-control" id="imagemUrlProduto"
+                     formControlName="imagemUrl" placeholder="Ex: assets/images/camisas/br/nova.png"
+                     [ngClass]="{ 'is-invalid': f['imagemUrl'].invalid && f['imagemUrl'].touched }">
+              <div *ngIf="f['imagemUrl'].invalid && f['imagemUrl'].touched" class="invalid-feedback d-block small">
+                <div *ngIf="f['imagemUrl'].errors?.['required']">URL da imagem é obrigatória.</div>
+                <div *ngIf="f['imagemUrl'].errors?.['pattern']">URL inválida (deve começar com 'assets/images/' ou 'http').</div>
+              </div>
             </div>
           </div>
+
           <div class="text-center">
-             <button type="submit" class="btn btn-success" [disabled]="!produtoForm.form.valid">Adicionar Produto</button>
+             <button type="submit" class="btn btn-success" [disabled]="produtoForm.invalid">Adicionar Produto</button>
           </div>
         </form>
       </div>
@@ -82,4 +110,6 @@
           </tr>
         </tbody>
       </table>
-    </div> </div> </section>
+    </div>
+  </div>
+</section>

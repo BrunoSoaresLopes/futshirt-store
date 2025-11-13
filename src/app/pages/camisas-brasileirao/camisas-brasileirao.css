@@ -1,35 +1,30 @@
-/* Container dos botões de tamanho */
 .botoes-tamanho-container {
   display: flex;
-  justify-content: space-between; /* deixa todos lado a lado, espaçados igualmente */
+  justify-content: space-between;
   align-items: center;
-  width: 100%; /* mesma largura do botão de carrinho */
-  gap: 0; /* sem espaçamento entre eles */
+  width: 100%;
+  gap: 0;
 }
 
-/* Cada botão ocupa o mesmo espaço da linha */
 .btn-tamanho {
   background-color: #0A2A08;
   border: 1px solid white;
   color: white;
-  flex: 1; /* divide o espaço igualmente entre todos os botões */
+  flex: 1;
   height: 40px;
   text-align: center;
   transition: all 0.2s ease-in-out;
 }
 
-/* Botão selecionado */
 .btn-tamanho.bg-white {
   color: #0A2A08 !important;
 }
 
-/* Hover */
 .btn-tamanho:hover {
   background-color: white;
   color: #0A2A08 !important;
 }
 
-/* Botão "Adicionar ao carrinho" */
 .btn-add-carrinho {
   width: 100%;
   height: 45px;
@@ -44,20 +39,16 @@
   transition: all 0.2s ease-in-out;
 }
 
-/* Classe custom para o botão do SweetAlert2
-   Usamos o seletor .swal2-confirm.swal-btn-custom para maior especificidade
-   e garantir que o fundo seja o verde desejado. */
 .swal2-confirm.swal-btn-custom {
-  background-color: #0A2A08 !important; /* Fundo verde escuro (cor da página) */
-  color: white !important;              /* Texto branco */
-  border: 1px solid white !important;   /* Borda branca */
+  background-color: #0A2A08 !important;
+  color: white !important;
+  border: 1px solid white !important;
   font-weight: bold;
   border-radius: 5px;
-  box-shadow: none !important; 
+  box-shadow: none !important;
 }
 
-/* Hover do botão */
 .swal2-confirm.swal-btn-custom:hover {
-  background-color: white !important; /* Fundo branco ao passar o mouse */
-  color: #0A2A08 !important;          /* Texto verde escuro ao passar o mouse */
+  background-color: white !important;
+  color: #0A2A08 !important;
 }

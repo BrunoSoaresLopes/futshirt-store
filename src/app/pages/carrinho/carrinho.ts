@@ -1,14 +1,12 @@
-// src/app/pages/carrinho/carrinho.ts
-
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CarrinhoItem, CarrinhoService } from '../../services/carrinho.service'; // Importa o serviço e a interface
+import { CarrinhoItem, CarrinhoService } from '../../services/carrinho.service';
 
 @Component({
   selector: 'app-carrinho',
   standalone: false,
-  templateUrl: './carrinho.html', // Verifique o nome do arquivo HTML
-  styleUrls: ['./carrinho.css']   // Verifique o nome do arquivo CSS
+  templateUrl: './carrinho.html',
+  styleUrls: ['./carrinho.css']
 })
 export class CarrinhoComponent implements OnInit {
 
@@ -17,7 +15,7 @@ export class CarrinhoComponent implements OnInit {
   total: number = 0;
 
   constructor(private carrinhoService: CarrinhoService) {
-    // Inicializa o Observable
+
     this.itens$ = this.carrinhoService.itensCarrinho$;
   }
 

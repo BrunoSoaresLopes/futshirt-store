@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Produto } from '../../models/produto.model';
 import { ProdutoService } from '../../services/produto';
-import { CarrinhoService } from '../../services/carrinho.service'; // 1. IMPORTE O CARRINHO SERVICE
+import { CarrinhoService } from '../../services/carrinho.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,11 +16,13 @@ export class CamisasEuropa implements OnInit {
 
   constructor(
     private produtoService: ProdutoService,
-    private carrinhoService: CarrinhoService // 2. INJETE O CARRINHO SERVICE
+    private carrinhoService: CarrinhoService
   ) { }
 
   ngOnInit(): void {
-    this.listaProdutosEuropa = this.produtoService.getProdutosEuropa();
+    this.produtoService.getProdutosPorTipo('europa').subscribe(produtosRecebidos => {
+      this.listaProdutosEuropa = produtosRecebidos;
+    });
   }
 
   selecionarTamanho(produtoId: number, tamanho: string): void {
@@ -35,7 +37,6 @@ export class CamisasEuropa implements OnInit {
     const tamanhoSelecionado = this.tamanhosSelecionados[produto.id];
 
     if (!tamanhoSelecionado) {
-      // Sua validação de tamanho (está correta)
       Swal.fire({
         icon: 'warning',
         title: 'Selecione um tamanho!',
@@ -48,12 +49,10 @@ export class CamisasEuropa implements OnInit {
         }
       });
       return;
-      this.carrinhoService.adicionarItem(produto, tamanhoSelecionado);
     }
 
     this.carrinhoService.adicionarItem(produto, tamanhoSelecionado);
 
-    // Agora mostre o alerta de sucesso (está correto)
     Swal.fire({
       icon: 'success',
       title: 'Camisa adicionada!',

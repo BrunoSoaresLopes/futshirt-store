@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-// REMOVA os imports de UsuarioService e Usuario se eles não existem
-// import { UsuarioService } from '../../services/usuario.service';
-// import { Usuario } from '../../models/usuario.model';
+import { Component, OnInit } from '@angular/core';
+import { UsuarioService } from '../../services/usuario';
+import { Usuario } from '../../models/usuario.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-cadastro',
@@ -9,43 +9,45 @@ import { Component } from '@angular/core';
   styleUrls: ['./cadastro.css'],
   standalone: false,
 })
-export class CadastroComponent {
+export class CadastroComponent implements OnInit {
 
-  // Propriedades para o formulário
-  nomeUsuario: string = '';
-  emailUsuario: string = '';
-  senhaUsuario: string = '';
+  //Cria a propriedade do FormGroup
+  cadastroForm: FormGroup;
 
-  // Remova o UsuarioService do construtor por enquanto
-  constructor(/*private usuarioService: UsuarioService*/) { }
+  //Injeta FormBuilder e UsuarioService
+  constructor(
+    private usuarioService: UsuarioService,
+    private fb: FormBuilder
+  ) {
+    //Inicializa o formulário
+    this.cadastroForm = this.fb.group({
+      nome: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      senha: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
+  ngOnInit(): void { }
+
+  //Getter (atalho) para os controles
+  get c() {
+    return this.cadastroForm.controls;
+  }
+
+  //Atualiza o método onSubmit
   onSubmit(): void {
-    if (!this.nomeUsuario || !this.emailUsuario || !this.senhaUsuario) {
-      alert('Por favor, preencha todos os campos.');
+    this.cadastroForm.markAllAsTouched();
+
+    if (this.cadastroForm.invalid) {
+      alert('Formulário inválido. Verifique os campos.');
       return;
     }
 
-    console.log('Dados do formulário de cadastro:');
-    console.log('Nome:', this.nomeUsuario);
-    console.log('Email:', this.emailUsuario);
-    // Não logue a senha em aplicações reais!
-    // console.log('Senha:', this.senhaUsuario);
+    const novoUsuario: Usuario = this.cadastroForm.value;
 
-    // Comente ou remova a criação do objeto e a chamada ao service
-    /*
-    const novoUsuario: Usuario = {
-      nome: this.nomeUsuario,
-      email: this.emailUsuario,
-      senha: this.senhaUsuario
-    };
-    this.usuarioService.cadastrarUsuario(novoUsuario);
-    */
-
-    alert('Cadastro enviado (simulação - sem salvar)!');
-
-    // Limpa o formulário após o envio
-    this.nomeUsuario = '';
-    this.emailUsuario = '';
-    this.senhaUsuario = '';
+    // Assumindo que UsuarioService foi atualizado para HTTP
+    this.usuarioService.cadastrarUsuario(novoUsuario).subscribe(usuarioCadastrado => {
+      this.cadastroForm.reset();
+    });
   }
 }

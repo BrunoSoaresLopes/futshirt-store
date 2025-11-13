@@ -1,0 +1,181 @@
+{
+  "produtos": [
+    {
+      "id": "1",
+      "nome": "Santos",
+      "preco": 350,
+      "imagemUrl": "assets/images/camisas/br/santos.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "2",
+      "nome": "Atlético Mineiro",
+      "preco": 320,
+      "imagemUrl": "assets/images/camisas/br/atletico.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "3",
+      "nome": "Cruzeiro",
+      "preco": 175,
+      "imagemUrl": "assets/images/camisas/br/cruzeiro.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "4",
+      "nome": "Flamengo",
+      "preco": 300,
+      "imagemUrl": "assets/images/camisas/br/flamengo.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "5",
+      "nome": "Botafogo",
+      "preco": 180,
+      "imagemUrl": "assets/images/camisas/br/botafogo.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "6",
+      "nome": "Fluminense",
+      "preco": 150,
+      "imagemUrl": "assets/images/camisas/br/fluminense.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "7",
+      "nome": "Vasco",
+      "preco": 180,
+      "imagemUrl": "assets/images/camisas/br/vasco.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "8",
+      "nome": "Internacional",
+      "preco": 240,
+      "imagemUrl": "assets/images/camisas/br/internacional.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "9",
+      "nome": "Gremio",
+      "preco": 220,
+      "imagemUrl": "assets/images/camisas/br/gremio.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "10",
+      "nome": "São Paulo",
+      "preco": 320,
+      "imagemUrl": "assets/images/camisas/br/saopaulo.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "11",
+      "nome": "Palmeiras",
+      "preco": 180,
+      "imagemUrl": "assets/images/camisas/br/palmeiras.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "12",
+      "nome": "Corinthians",
+      "preco": 140,
+      "imagemUrl": "assets/images/camisas/br/corinthians.png",
+      "tipo": "brasileirao"
+    },
+    {
+      "id": "13",
+      "nome": "Real Madrid",
+      "preco": 300,
+      "imagemUrl": "assets/images/camisas/europa/real.png",
+      "tipo": "europa"
+    },
+    {
+      "id": "14",
+      "nome": "Barcelona",
+      "preco": 250,
+      "imagemUrl": "assets/images/camisas/europa/barcelona.png",
+      "tipo": "europa"
+    },
+    {
+      "id": "15",
+      "nome": "Liverpool",
+      "preco": 280,
+      "imagemUrl": "assets/images/camisas/europa/liverpool.png",
+      "tipo": "europa"
+    },
+    {
+      "id": "16",
+      "nome": "Manchester City",
+      "preco": 220,
+      "imagemUrl": "assets/images/camisas/europa/city.png",
+      "tipo": "europa"
+    },
+    {
+      "id": "17",
+      "nome": "Bayern",
+      "preco": 300,
+      "imagemUrl": "assets/images/camisas/europa/bayern.png",
+      "tipo": "europa"
+    },
+    {
+      "id": "18",
+      "nome": "PSG",
+      "preco": 180,
+      "imagemUrl": "assets/images/camisas/europa/psg.png",
+      "tipo": "europa"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "7a00",
+      "nome": "Bruno Soares Jordão Lopes",
+      "email": "brsjlopes12@gmail.com",
+      "senha": "teste123"
+    }
+  ],
+  "carrinho": [],
+  "frete": [
+    {
+      "id": "1",
+      "regiao": "Sudeste (SP, MG, RJ, ES)",
+      "cepInicio": "01000000",
+      "cepFim": "39999999",
+      "valor": 15.5,
+      "prazo": "3 dias úteis"
+    },
+    {
+      "id": "2",
+      "regiao": "Sul (PR, SC, RS)",
+      "cepInicio": "80000000",
+      "cepFim": "99999999",
+      "valor": 22,
+      "prazo": "5 dias úteis"
+    },
+    {
+      "id": "3",
+      "regiao": "Centro-Oeste (DF, GO, MT, MS)",
+      "cepInicio": "70000000",
+      "cepFim": "79999999",
+      "valor": 28,
+      "prazo": "6 dias úteis"
+    },
+    {
+      "id": "4",
+      "regiao": "Nordeste (BA, SE, AL, PE, PB, RN, CE, PI, MA)",
+      "cepInicio": "40000000",
+      "cepFim": "65999999",
+      "valor": 35.7,
+      "prazo": "10 dias úteis"
+    },
+    {
+      "id": "5",
+      "regiao": "Norte (AC, AM, AP, PA, RO, RR, TO)",
+      "cepInicio": "66000000",
+      "cepFim": "69999999",
+      "valor": 45,
+      "prazo": "12 dias úteis"
+    }
+  ]
+}

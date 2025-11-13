@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Produto } from '../../models/produto.model';
 import { ProdutoService } from '../../services/produto';
-import { CarrinhoService } from '../../services/carrinho.service'; // 1. IMPORTE O CARRINHO SERVICE
+import { CarrinhoService } from '../../services/carrinho.service';
 import Swal from 'sweetalert2';
-
-// A interface ProdutoComTamanho não está sendo usada, pode remover se quiser
-// interface ProdutoComTamanho extends Produto {
-//  selectedSize?: string | null;
-//  addToCartError?: string | null;
-// }
 
 @Component({
   selector: 'app-camisas-brasileirao',
@@ -22,11 +16,13 @@ export class CamisasBrasileirao implements OnInit {
 
   constructor(
     private produtoService: ProdutoService,
-    private carrinhoService: CarrinhoService // 2. INJETE O CARRINHO SERVICE
+    private carrinhoService: CarrinhoService
   ) {}
 
   ngOnInit(): void {
-    this.listaProdutos = this.produtoService.getProdutosBrasileirao();
+    this.produtoService.getProdutosPorTipo('brasileirao').subscribe(produtosRecebidos => {
+      this.listaProdutos = produtosRecebidos;
+    });
   }
 
   selecionarTamanho(produtoId: number, tamanho: string): void {
@@ -37,7 +33,6 @@ export class CamisasBrasileirao implements OnInit {
     const tamanhoSelecionado = this.tamanhosSelecionados[produto.id];
 
     if (!tamanhoSelecionado) {
-      // Sua validação de tamanho (está correta)
       Swal.fire({
         icon: 'warning',
         title: 'Selecione um tamanho!',
@@ -49,15 +44,11 @@ export class CamisasBrasileirao implements OnInit {
           confirmButton: 'swal-btn-custom'
         }
       });
-      console.log('CHAMANDO O CARRINHO SERVICE COM:', produto, tamanhoSelecionado); // <<< ADICIONE ESTE LOG
-this.carrinhoService.adicionarItem(produto, tamanhoSelecionado);
       return;
     }
 
-    // 3. CHAME O SERVIÇO AQUI
     this.carrinhoService.adicionarItem(produto, tamanhoSelecionado);
 
-    // Agora mostre o alerta de sucesso (está correto)
     Swal.fire({
       icon: 'success',
       title: 'Camisa adicionada!',
@@ -69,9 +60,6 @@ this.carrinhoService.adicionarItem(produto, tamanhoSelecionado);
         confirmButton: 'swal-btn-custom'
       }
     });
-
-    // Opcional: Limpar o tamanho selecionado após adicionar
-    // delete this.tamanhosSelecionados[produto.id];
   }
 
   isTamanhoSelecionado(produtoId: number, tamanho: string): boolean {

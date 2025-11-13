@@ -2,23 +2,20 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #000; /* <<< ADICIONE/ALTERE ISSO PARA PRETO */
+  background-color: #000;
 }
 
 app-root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* Opcional: defina a cor de fundo principal aqui também */
-  background-color: #0A2A08; /* Define o fundo do app todo como verde */
+  background-color: #0A2A08;
 }
 
 main {
   flex-grow: 1;
-  /* A cor verde da section dentro dos componentes vai cobrir o verde do app-root */
 }
 
-/* Garante que o footer sobrescreva o fundo verde do app-root */
 app-footer {
-  background-color: #000; /* Assumindo que seu footer.css já não faça isso */
+  background-color: #000;
 }
