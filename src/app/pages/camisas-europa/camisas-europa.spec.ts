@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CamisasEuropa } from './camisas-europa';
 
 import { ProdutoService } from '../../services/produto';
-import { CarrinhoService } from '../../services/carrinho.service';
+import { CarrinhoService } from '../../services/carrinho';
 
 class MockProdutoService {
   getProdutosEuropa() {

@@ -1,4 +1,4 @@
-<section class="py-5 text-white">
+<section class="py-5 text-white" style="background-color: #0A2A08;">
   <div class="container px-4 px-lg-5">
 
     <h2 class="text-center mb-4 text-white">Finalizar Compra</h2>
@@ -6,7 +6,6 @@
     <div class="row g-5">
 
       <div class="col-md-7">
-
         <h4 class="mb-3 text-white">Informações do Comprador</h4>
 
         <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" novalidate>
@@ -21,7 +20,6 @@
                 <div *ngIf="f['nomeCompleto'].errors?.['minlength']">Nome muito curto.</div>
               </div>
             </div>
-
             <div class="col-12">
               <label for="email" class="form-label">Email</label>
               <input type="email" class="form-control" id="email" formControlName="email"
@@ -33,7 +31,9 @@
             </div>
           </div>
 
-          <hr class="my-4 border-light"> <h4 class="mb-3 text-white">Endereço de Entrega</h4>
+          <hr class="my-4 border-light">
+
+          <h4 class="mb-3 text-white">Endereço de Entrega</h4>
           <div class="row g-3">
             <div class="col-md-5">
               <label for="cep" class="form-label">CEP</label>
@@ -44,7 +44,6 @@
                 <div *ngIf="f['cep'].errors?.['pattern']">Formato de CEP inválido.</div>
               </div>
             </div>
-
             <div class="col-md-7">
               <label for="rua" class="form-label">Rua / Avenida</label>
               <input type="text" class="form-control" id="rua" formControlName="rua"
@@ -53,7 +52,6 @@
                 Rua é obrigatória.
               </div>
             </div>
-
             <div class="col-md-4">
               <label for="numero" class="form-label">Número</label>
               <input type="text" class="form-control" id="numero" formControlName="numero"
@@ -63,7 +61,6 @@
                 <div *ngIf="f['numero'].errors?.['pattern']">Apenas números.</div>
               </div>
             </div>
-
              <div class="col-md-8">
               <label for="bairro" class="form-label">Bairro</label>
               <input type="text" class="form-control" id="bairro" formControlName="bairro"
@@ -72,7 +69,6 @@
                 Bairro é obrigatório.
               </div>
             </div>
-
             <div class="col-12">
               <label for="cidade" class="form-label">Cidade</label>
               <input type="text" class="form-control" id="cidade" formControlName="cidade"
@@ -83,7 +79,9 @@
             </div>
           </div>
 
-          <hr class="my-4 border-light"> <h4 class="mb-3 text-white">Pagamento</h4>
+          <hr class="my-4 border-light">
+
+          <h4 class="mb-3 text-white">Pagamento</h4>
           <div class="row g-3">
             <div class="col-12">
               <label for="nomeCartao" class="form-label">Nome no Cartão</label>
@@ -93,7 +91,6 @@
                 Nome no cartão é obrigatório.
               </div>
             </div>
-
             <div class="col-12">
               <label for="numeroCartao" class="form-label">Número do Cartão</label>
               <input type="text" class="form-control" id="numeroCartao" formControlName="numeroCartao" placeholder="XXXX XXXX XXXX XXXX"
@@ -103,7 +100,6 @@
                 <div *ngIf="f['numeroCartao'].errors?.['pattern']">Deve conter 16 números.</div>
               </div>
             </div>
-
             <div class="col-md-6">
               <label for="validadeCartao" class="form-label">Validade (MM/AA)</label>
               <input type="text" class="form-control" id="validadeCartao" formControlName="validadeCartao" placeholder="MM/AA"
@@ -112,7 +108,6 @@
                 Validade inválida (use MM/AA).
               </div>
             </div>
-
             <div class="col-md-6">
               <label for="cvv" class="form-label">CVV</label>
               <input type="text" class="form-control" id="cvv" formControlName="cvv" placeholder="XXX"
@@ -123,7 +118,9 @@
             </div>
           </div>
 
-          <hr class="my-4 border-light"> <button class="w-100 btn btn-primary btn-lg" type="submit" [disabled]="checkoutForm.invalid">
+          <hr class="my-4 border-light">
+
+          <button class="w-100 btn btn-primary btn-lg" type="submit" [disabled]="checkoutForm.invalid">
             Finalizar Compra
           </button>
         </form>
@@ -131,14 +128,13 @@
       </div>
 
       <div class="col-md-5">
-
         <h4 class="d-flex justify-content-between align-items-center mb-3 text-white">
           <span>Resumo do Pedido</span>
-          <span class="badge bg-primary rounded-pill">{{ (itens$ | async)?.length || 0 }}</span>
+          <span class="badge bg-primary rounded-pill">{{ itensVisiveis.length }}</span>
         </h4>
 
         <ul class="list-group mb-3 list-group-flush">
-          <li *ngFor="let item of (itens$ | async)" class="list-group-item d-flex justify-content-between lh-sm bg-dark text-white">
+          <li *ngFor="let item of itensVisiveis" class="list-group-item d-flex justify-content-between lh-sm bg-dark text-white">
             <div>
               <h6 class="my-0">{{ item.produto.nome }} ({{ item.tamanho }})</h6>
               <small class="text-white-50">Qtd: {{ item.quantidade }}</small>
@@ -146,12 +142,19 @@
             <span class="text-white-50">{{ (item.produto.preco * item.quantidade) | currency:'BRL' }}</span>
           </li>
 
-          <li class="list-group-item d-flex justify-content-between bg-dark text-white">
-            <span class="fw-bold">Total (Produtos)</span>
-            <strong class="fw-bold">{{ totalProdutos | currency:'BRL' }}</strong>
+          <li *ngIf="opcaoFrete"
+              class="list-group-item d-flex justify-content-between bg-dark text-white">
+            <span class="fw-bold">
+              Frete ({{ opcaoFrete.regiao }} - {{ opcaoFrete.prazo }})
+            </span>
+            <strong class="fw-bold">{{ opcaoFrete.valor | currency:'BRL' }}</strong>
+          </li>
+
+           <li class="list-group-item d-flex justify-content-between bg-secondary text-white">
+            <span class="fw-bold">Total Geral</span>
+            <strong class="fw-bold">{{ getTotalGeral() | currency:'BRL' }}</strong>
           </li>
         </ul>
-
       </div>
     </div>
   </div>

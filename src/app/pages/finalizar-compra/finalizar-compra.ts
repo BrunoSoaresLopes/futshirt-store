@@ -1,9 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { CarrinhoItem, CarrinhoService } from '../../services/carrinho.service';
+import { Subscription, forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CarrinhoItem, CarrinhoService } from '../../services/carrinho';
+import { ProdutoService } from '../../services/produto';
+import { Produto } from '../../models/produto.model';
+import { UsuarioService } from '../../services/usuario';
+import { FreteService, OpcaoFrete } from '../../services/frete';
 import Swal from 'sweetalert2';
+
+export interface CarrinhoItemCompleto {
+  itemId: number;
+  produto: Produto;
+  tamanho: string;
+  quantidade: number;
+}
 
 @Component({
   selector: 'app-finalizar-compra',
@@ -11,85 +22,132 @@ import Swal from 'sweetalert2';
   templateUrl: './finalizar-compra.html',
   styleUrls: ['./finalizar-compra.css']
 })
-export class FinalizarCompraComponent implements OnInit {
+export class FinalizarCompraComponent implements OnInit, OnDestroy {
 
   checkoutForm: FormGroup;
-  itens$: Observable<CarrinhoItem[]>;
+  itensVisiveis: CarrinhoItemCompleto[] = [];
   totalProdutos: number = 0;
+  opcaoFrete: OpcaoFrete | null = null;
+
+  private subs: Subscription = new Subscription();
 
   constructor(
     private fb: FormBuilder,
     private carrinhoService: CarrinhoService,
-    private router: Router
+    private produtoService: ProdutoService,
+    private usuarioService: UsuarioService,
+    private freteService: FreteService
   ) {
-    // Inicializa o formulário reativo com FormBuilder
     this.checkoutForm = this.fb.group({
-      // --- Grupo 1: Dados Pessoais ---
+      // Dados do comprador
       nomeCompleto: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
 
-      // --- Grupo 2: Endereço de Entrega ---
-      cep: ['', [Validators.required, Validators.pattern(/^\d{5}-\d{3}$|^\d{8}$/)]], // Aceita XXXXX-XXX ou XXXXXXXX
-      rua: ['', [Validators.required]],
-      numero: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]], // Apenas números
-      bairro: ['', [Validators.required]],
-      cidade: ['', [Validators.required]],
+      // Endereço
+      cep: ['', [Validators.required, Validators.pattern(/^\d{5}-?\d{3}$/)]],
+      rua: ['', Validators.required],
+      numero: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      bairro: ['', Validators.required],
+      cidade: ['', Validators.required],
 
-      // --- Grupo 3: Pagamento ---
-      nomeCartao: ['', [Validators.required, Validators.minLength(5)]],
-      numeroCartao: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]], // Exatamente 16 números
-      validadeCartao: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]], // Formato MM/AA
-      cvv: ['', [Validators.required, Validators.pattern(/^\d{3,4}$/)]] // 3 ou 4 números
+      // Pagamento
+      nomeCartao: ['', Validators.required],
+      numeroCartao: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
+      validadeCartao: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]],
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3,4}$/)]]
     });
-
-    // Pega os itens do carrinho
-    this.itens$ = this.carrinhoService.itensCarrinho$;
   }
 
-  ngOnInit(): void {
-    // Calcula o total dos produtos
-    this.totalProdutos = this.carrinhoService.getTotal();
-  }
-
-  // Getter (atalho) para acessar os controles do formulário no HTML
   get f() {
     return this.checkoutForm.controls;
   }
 
-  // Método chamado ao enviar o formulário
+  ngOnInit(): void {
+    const usuario = this.usuarioService.usuarioLogado;
+    if (!usuario) return;
+
+    // Pré-preenche nome e e-mail do usuário logado
+    this.checkoutForm.patchValue({
+      nomeCompleto: usuario.nome,
+      email: usuario.email
+    });
+
+    // Pré-preenche o CEP vindo do carrinho (se existir)
+    const cepCarrinho = this.carrinhoService.getCepDestino();
+    if (cepCarrinho) {
+      this.checkoutForm.patchValue({ cep: cepCarrinho });
+
+      // Calcula frete
+      this.freteService.calcularFrete(cepCarrinho).subscribe(resultado => {
+        if (resultado) {
+          this.opcaoFrete = resultado;
+        }
+      });
+    }
+
+    // Assina itens do carrinho e monta a lista visível com total
+    this.subs.add(
+      this.carrinhoService.itensCarrinho$.subscribe((itens: CarrinhoItem[]) => {
+        const itensDoUsuario = itens.filter(i => i.usuarioId === usuario.id);
+        this.itensVisiveis = [];
+        this.totalProdutos = 0;
+
+        const observables = itensDoUsuario.map(item =>
+          this.produtoService.getProdutoPorId(item.produtoId).pipe(
+            map((produto: Produto) => ({ item, produto }))
+          )
+        );
+
+        if (observables.length > 0) {
+          forkJoin(observables).subscribe((resultados: { item: CarrinhoItem, produto: Produto }[]) => {
+            let novoTotal = 0;
+            this.itensVisiveis = resultados.map((r: { item: CarrinhoItem, produto: Produto }) => {
+              novoTotal += r.produto.preco * r.item.quantidade;
+              return {
+                itemId: r.item.id!,
+                produto: r.produto,
+                tamanho: r.item.tamanho,
+                quantidade: r.item.quantidade
+              };
+            });
+            this.totalProdutos = novoTotal;
+          });
+        } else {
+          this.itensVisiveis = [];
+          this.totalProdutos = 0;
+        }
+      })
+    );
+
+    this.carrinhoService.carregarItensDoServidor(usuario.id!).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
+  getTotalGeral(): number {
+    const valorFrete = this.opcaoFrete ? this.opcaoFrete.valor : 0;
+    return this.totalProdutos + valorFrete;
+  }
+
   onSubmit(): void {
-    // Marca todos os campos como "tocados" para exibir erros, se houver
     this.checkoutForm.markAllAsTouched();
 
-    // Se o formulário estiver inválido, para a execução
     if (this.checkoutForm.invalid) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Formulário Inválido',
-        text: 'Por favor, corrija os campos marcados em vermelho.',
-        background: '#f8f9fa',
-        color: '#333',
-      });
+      Swal.fire('Erro', 'Formulário inválido. Verifique os campos.', 'error');
       return;
     }
 
-    // --- LÓGICA DE FINALIZAÇÃO (SIMULAÇÃO) ---
-    // Aqui você enviaria os dados (this.checkoutForm.value) para uma API de Pedidos
-    // Como é uma simulação, vamos apenas limpar o carrinho e navegar
+    Swal.fire('Sucesso', 'Compra finalizada com sucesso!', 'success');
 
-    console.log('Dados do Pedido Enviados (Simulação):', this.checkoutForm.value);
-
-    Swal.fire({
-      icon: 'success',
-      title: 'Compra Realizada!',
-      text: 'Seu pedido foi processado com sucesso.',
-      background: '#f8f9fa',
-      color: '#333',
-      timer: 2500,
-      showConfirmButton: false
-    });
-
-    this.carrinhoService.limparCarrinho();
-    this.router.navigate(['/']); // Navega de volta para a Home
+    const usuario = this.usuarioService.usuarioLogado;
+    if (usuario) {
+      this.carrinhoService.limparCarrinho(usuario.id!).subscribe();
+      this.opcaoFrete = null;
+    }
   }
 }
+
+
+

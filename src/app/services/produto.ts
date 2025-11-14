@@ -8,38 +8,47 @@ import { Produto } from '../models/produto.model';
 })
 export class ProdutoService {
 
-  private apiUrl = 'http://localhost:3000/produtos';
+  private readonly apiUrl = 'http://localhost:3000/produtos';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
+  // Busca todos os produtos
   getTodosProdutos(): Observable<Produto[]> {
     return this.http.get<Produto[]>(this.apiUrl);
   }
 
+  // Busca produtos filtrados por tipo (brasileirao ou europa)
   getProdutosPorTipo(tipo: 'brasileirao' | 'europa'): Observable<Produto[]> {
     return this.http.get<Produto[]>(`${this.apiUrl}?tipo=${tipo}`);
   }
 
-  getProdutoPorId(id: number): Observable<Produto | undefined> {
+  // Busca um produto pelo ID
+  getProdutoPorId(id: number): Observable<Produto> {
     return this.http.get<Produto>(`${this.apiUrl}/${id}`);
   }
 
-  adicionarProduto(novoProdutoDados: Omit<Produto, 'id'>): Observable<Produto> {
-    return this.http.post<Produto>(this.apiUrl, novoProdutoDados);
+  // Adiciona um novo produto
+  adicionarProduto(novoProduto: Omit<Produto, 'id'>): Observable<Produto> {
+    return this.http.post<Produto>(this.apiUrl, novoProduto);
   }
 
-  atualizarProduto(produtoAtualizado: Produto): Observable<Produto> {
-    return this.http.put<Produto>(`${this.apiUrl}/${produtoAtualizado.id}`, produtoAtualizado);
+  // Atualiza um produto existente
+  atualizarProduto(produto: Produto): Observable<Produto> {
+    return this.http.put<Produto>(`${this.apiUrl}/${produto.id}`, produto);
   }
 
+  // Exclui um produto pelo ID
   excluirProduto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
+  // Busca produtos pelo nome (texto livre) 
   buscarProdutoPorNome(termo: string): Observable<Produto[]> {
-    if (!termo.trim()) {
-      return of([]); // Retorna um Observable de array vazio
+    const texto = termo.trim();
+    if (!texto) {
+      return of([]); // retorna vazio se não houver termo
     }
-    return this.http.get<Produto[]>(`${this.apiUrl}?q=${termo}`);
+    return this.http.get<Produto[]>(`${this.apiUrl}?q=${encodeURIComponent(texto)}`);
   }
 }
+

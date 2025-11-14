@@ -11,15 +11,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CadastroComponent implements OnInit {
 
-  //Cria a propriedade do FormGroup
   cadastroForm: FormGroup;
 
-  //Injeta FormBuilder e UsuarioService
   constructor(
     private usuarioService: UsuarioService,
     private fb: FormBuilder
   ) {
-    //Inicializa o formulário
     this.cadastroForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -27,14 +24,12 @@ export class CadastroComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
-  //Getter (atalho) para os controles
   get c() {
     return this.cadastroForm.controls;
   }
 
-  //Atualiza o método onSubmit
   onSubmit(): void {
     this.cadastroForm.markAllAsTouched();
 
@@ -45,9 +40,10 @@ export class CadastroComponent implements OnInit {
 
     const novoUsuario: Usuario = this.cadastroForm.value;
 
-    // Assumindo que UsuarioService foi atualizado para HTTP
-    this.usuarioService.cadastrarUsuario(novoUsuario).subscribe(usuarioCadastrado => {
+    this.usuarioService.cadastrarUsuario(novoUsuario).subscribe(() => {
       this.cadastroForm.reset();
+      alert('Usuário cadastrado com sucesso!');
     });
   }
 }
+

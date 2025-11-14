@@ -133,9 +133,77 @@
       "nome": "Bruno Soares Jordão Lopes",
       "email": "brsjlopes12@gmail.com",
       "senha": "teste123"
+    },
+    {
+      "id": "3eee",
+      "nome": "Enzo Martins Gomes Trevisan",
+      "email": "brsjlopes13@gmail.com",
+      "senha": "teste123"
     }
   ],
-  "carrinho": [],
+  "carrinho": [
+    {
+      "id": "32e7",
+      "produtoId": "3",
+      "tamanho": "PP",
+      "quantidade": 1
+    },
+    {
+      "id": "81ab",
+      "produtoId": "2",
+      "tamanho": "G",
+      "quantidade": 1
+    },
+    {
+      "id": "f0ba",
+      "produtoId": "2",
+      "tamanho": "PP",
+      "quantidade": 1,
+      "usuarioId": "3eee"
+    },
+    {
+      "id": "675c",
+      "produtoId": "1",
+      "tamanho": "G",
+      "quantidade": 1,
+      "usuarioId": "3eee"
+    },
+    {
+      "id": "a7b4",
+      "produtoId": "3",
+      "tamanho": "M",
+      "quantidade": 1,
+      "usuarioId": "3eee"
+    },
+    {
+      "id": "f267",
+      "produtoId": "7",
+      "tamanho": "M",
+      "quantidade": 1,
+      "usuarioId": "3eee"
+    },
+    {
+      "id": "f0bf",
+      "produtoId": "11",
+      "tamanho": "G",
+      "quantidade": 1,
+      "usuarioId": "3eee"
+    },
+    {
+      "id": "dd51",
+      "produtoId": "14",
+      "tamanho": "PP",
+      "quantidade": 1,
+      "usuarioId": "3eee"
+    },
+    {
+      "id": "57ca",
+      "produtoId": "13",
+      "tamanho": "M",
+      "quantidade": 1,
+      "usuarioId": "3eee"
+    }
+  ],
   "frete": [
     {
       "id": "1",

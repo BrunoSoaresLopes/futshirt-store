@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   get c() {
     return this.loginForm.controls;
@@ -48,3 +48,4 @@ export class LoginComponent implements OnInit {
     });
   }
 }
+
