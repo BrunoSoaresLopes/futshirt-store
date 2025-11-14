@@ -125,22 +125,35 @@
       "preco": 180,
       "imagemUrl": "assets/images/camisas/europa/psg.png",
       "tipo": "europa"
+    },
+    {
+      "id": "df97",
+      "nome": "América Mineiro",
+      "preco": 200,
+      "imagemUrl": "https://d9aearf180tto.cloudfront.net/Custom/Content/Products/90/20/90206_of-camisa-jogo-1-afc-fem-pr-19001-a0207_l4_638793529225235037.webp",
+      "tipo": "brasileirao"
     }
   ],
   "usuarios": [
     {
       "id": "7a00",
       "nome": "Bruno Soares Jordão Lopes",
-      "email": "brsjlopes12@gmail.com",
+      "email": "bruno@gmail.com",
       "senha": "teste123",
       "admin": true
     },
     {
       "id": "3eee",
       "nome": "Enzo Martins Gomes Trevisan",
-      "email": "brsjlopes13@gmail.com",
+      "email": "enzo@gmail.com",
       "senha": "teste123",
       "admin": true
+    },
+    {
+      "id": "eb95",
+      "nome": "Joaozinho",
+      "email": "teste@gmail.com",
+      "senha": "teste123"
     }
   ],
   "carrinho": [
