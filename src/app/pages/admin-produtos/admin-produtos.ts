@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ProdutoService } from '../../services/produto';
-import { Produto } from '../../models/produto.model'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { ProdutoService } from '../../services/produto';
+import { UsuarioService } from '../../services/usuario';
+
+import { Produto } from '../../models/produto.model';
 
 @Component({
   selector: 'app-admin-produtos',
@@ -11,27 +15,28 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AdminProdutosComponent implements OnInit {
 
-  //Cria a propriedade do FormGroup
+  // Formulário reativo
   produtoForm: FormGroup;
 
-  //Propriedades para listagem
+  // Listagem e busca
   listaTodosProdutos: Produto[] = [];
   produtosExibidos: Produto[] = [];
   termoBusca: string = '';
 
-  //Injeta o FormBuilder
+  // Edição
+  produtoEditando: Produto | null = null;
+
   constructor(
     private produtoService: ProdutoService,
-    private fb: FormBuilder
+    private usuarioService: UsuarioService,
+    private fb: FormBuilder,
+    private router: Router
   ) {
-    //Inicializa o formulário no construtor
     this.produtoForm = this.fb.group({
-      //Define os controles: [valorPadrão, [Validadores]]
       nome: ['', [Validators.required, Validators.minLength(3)]],
       preco: [null, [Validators.required, Validators.min(0.01)]],
       imagemUrl: ['', [
         Validators.required,
-        //Validador de padrão (regex) que aceita 'assets/images/...' OU 'http...'
         Validators.pattern('^(assets/images/|http|https).*')
       ]],
       tipo: ['brasileirao', [Validators.required]]
@@ -39,10 +44,17 @@ export class AdminProdutosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Restrição de acesso: apenas administradores
+    const usuario = this.usuarioService.usuarioLogado;
+    if (!usuario || !usuario.admin) {
+      alert('Acesso negado. Apenas administradores podem entrar.');
+      this.router.navigate(['/']);
+      return;
+    }
+
     this.carregarProdutos();
   }
 
-  //Getter (atalho) para acessar os controles do formulário no HTML
   get f() {
     return this.produtoForm.controls;
   }
@@ -55,29 +67,29 @@ export class AdminProdutosComponent implements OnInit {
     });
   }
 
-  //Atualiza o método de Adicionar
+  // Adicionar ou atualizar (quando estiver editando)
   onSubmitAdicionar(): void {
-    //Marca todos os campos como "tocados" para exibir erros
     this.produtoForm.markAllAsTouched();
+    if (this.produtoForm.invalid) return;
 
-    //Para se o formulário for inválido
-    if (this.produtoForm.invalid) {
-      return;
-    }
+    const dadosProduto: Omit<Produto, 'id'> = this.produtoForm.value;
 
-    //Pega os valores do formulário reativo
-    const novoProduto: Omit<Produto, 'id'> = this.produtoForm.value;
-
-    this.produtoService.adicionarProduto(novoProduto).subscribe(produtoAdicionado => {
-      alert(`Produto ${produtoAdicionado.nome} adicionado com sucesso! (ID: ${produtoAdicionado.id})`);
-      this.produtoForm.reset({ // Limpa o formulário
-        nome: '',
-        preco: null,
-        imagemUrl: '',
-        tipo: 'brasileirao'
+    if (this.produtoEditando) {
+      // Atualizar produto existente
+      this.produtoService.atualizarProduto(this.produtoEditando.id!, dadosProduto).subscribe(() => {
+        alert(`Produto "${this.produtoEditando?.nome}" atualizado com sucesso!`);
+        this.produtoEditando = null;
+        this.produtoForm.reset({ nome: '', preco: null, imagemUrl: '', tipo: 'brasileirao' });
+        this.carregarProdutos();
       });
-      this.carregarProdutos();
-    });
+    } else {
+      // Adicionar novo produto
+      this.produtoService.adicionarProduto(dadosProduto).subscribe(produtoAdicionado => {
+        alert(`Produto "${produtoAdicionado.nome}" adicionado com sucesso! (ID: ${produtoAdicionado.id})`);
+        this.produtoForm.reset({ nome: '', preco: null, imagemUrl: '', tipo: 'brasileirao' });
+        this.carregarProdutos();
+      });
+    }
   }
 
   excluir(id: number | undefined): void {
@@ -90,13 +102,30 @@ export class AdminProdutosComponent implements OnInit {
     }
   }
 
+  // Entrar em modo edição e carregar dados no formulário
+  editar(produto: Produto): void {
+    this.produtoEditando = produto;
+    this.produtoForm.patchValue({
+      nome: produto.nome,
+      preco: produto.preco,
+      imagemUrl: produto.imagemUrl,
+      tipo: produto.tipo
+    });
+    // Opcional: rolar até o formulário
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Busca por nome (parcial) usando JSON-Server (?nome_like=)
   buscarProdutos(): void {
-    if (!this.termoBusca.trim()) {
+    const termo = this.termoBusca.trim();
+    if (!termo) {
       this.produtosExibidos = [...this.listaTodosProdutos];
-    } else {
-      this.produtoService.buscarProdutoPorNome(this.termoBusca).subscribe(produtosEncontrados => {
-        this.produtosExibidos = produtosEncontrados;
-      });
+      return;
     }
+
+    this.produtoService.buscarProdutoPorNome(termo).subscribe(produtosEncontrados => {
+      this.produtosExibidos = produtosEncontrados;
+    });
   }
 }
+

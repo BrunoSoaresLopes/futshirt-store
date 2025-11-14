@@ -22,7 +22,7 @@ export class CamisasBrasileirao implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.produtoService.getProdutosPorTipo('brasileirao').subscribe(produtos => {
+    this.produtoService.buscarProdutosPorTipo('brasileirao').subscribe(produtos => {
       this.listaProdutos = produtos;
     });
   }

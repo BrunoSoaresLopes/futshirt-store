@@ -22,7 +22,7 @@ export class CamisasEuropa implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.produtoService.getProdutosPorTipo('europa').subscribe(produtos => {
+    this.produtoService.buscarProdutosPorTipo('europa').subscribe(produtos => {
       this.listaProdutosEuropa = produtos;
     });
   }
