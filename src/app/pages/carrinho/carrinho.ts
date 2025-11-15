@@ -89,7 +89,7 @@ export class CarrinhoComponent implements OnInit, OnDestroy {
       alert('Por favor, digite um CEP.');
       return;
     }
-    this.carrinhoService.setCepDestino(this.cepDestino); // 🔥 guarda CEP
+    this.carrinhoService.setCepDestino(this.cepDestino);
     this.calculandoFrete = true;
     this.opcaoFrete = null;
     this.freteService.calcularFrete(this.cepDestino).subscribe(resultado => {

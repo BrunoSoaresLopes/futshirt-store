@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CamisasBrasileirao } from './camisas-brasileirao';
 
 import { ProdutoService } from '../../services/produto';
-import { CarrinhoService } from '../../services/carrinho.service';
+import { CarrinhoService } from '../../services/carrinho';
 
    //Retorna um array vazio para teste
 class MockProdutoService {
@@ -24,7 +24,7 @@ describe('CamisasBrasileirao', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CamisasBrasileirao],
-      // Fornecer os Mocks para o TestBed
+      // Fornece os Mocks para o TestBed
       providers: [
         { provide: ProdutoService, useClass: MockProdutoService },
         { provide: CarrinhoService, useClass: MockCarrinhoService }

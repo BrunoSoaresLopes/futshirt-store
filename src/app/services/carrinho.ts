@@ -22,7 +22,6 @@ export class CarrinhoService {
   private itensCarrinhoSubject = new BehaviorSubject<CarrinhoItem[]>([]);
   public itensCarrinho$ = this.itensCarrinhoSubject.asObservable();
 
-  // 🔥 Novo: guardar CEP
   private cepDestinoSubject = new BehaviorSubject<string>('');
   public cepDestino$ = this.cepDestinoSubject.asObservable();
 

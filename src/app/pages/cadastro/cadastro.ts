@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../services/usuario';
 import { Usuario } from '../../models/usuario.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cadastro',
@@ -15,7 +16,8 @@ export class CadastroComponent implements OnInit {
 
   constructor(
     private usuarioService: UsuarioService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.cadastroForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
@@ -42,8 +44,9 @@ export class CadastroComponent implements OnInit {
 
     this.usuarioService.cadastrarUsuario(novoUsuario).subscribe(() => {
       this.cadastroForm.reset();
-      alert('Usuário cadastrado com sucesso!');
+      this.router.navigate(['/login']);
     });
   }
 }
+
 

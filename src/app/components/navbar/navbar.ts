@@ -18,11 +18,8 @@ export class NavbarComponent {
     // Conecta o Observable local com o Observable do serviço
     this.usuarioLogado$ = this.usuarioService.usuarioLogado$;
   }
-
-  // Método para fazer logout
+  // Logout
   sair(): void {
     this.usuarioService.logout();
-    // (Opcional) Redirecionar para o login
-    //this.router.navigate(['/login']);
   }
 }

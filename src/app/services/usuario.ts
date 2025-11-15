@@ -20,25 +20,23 @@ export class UsuarioService {
     private carrinhoService: CarrinhoService
   ) {}
 
-  /** Retorna o usuário logado atualmente */
+  // Retorna o usuário logado atualmente
   public get usuarioLogado(): Usuario | null {
     return this.usuarioLogadoSubject.getValue();
   }
 
-  /** Cadastra um novo usuário */
+  // Cadastra um novo usuário
   cadastrarUsuario(novoUsuario: Usuario): Observable<Usuario> {
     return this.http.post<Usuario>(this.apiUrl, novoUsuario);
   }
 
-  /** Faz login */
+  // Faz login
   login(email: string, senha: string): Observable<Usuario | null> {
     return this.http.get<Usuario[]>(`${this.apiUrl}?email=${email}&senha=${senha}`).pipe(
       map(usuarios => {
         if (usuarios.length > 0) {
           const usuario = usuarios[0];
           this.usuarioLogadoSubject.next(usuario);
-
-          // 🔥 Carrega carrinho só do usuário logado
           this.carrinhoService.carregarItensDoServidor(usuario.id!).subscribe();
 
           console.log('Login bem-sucedido:', usuario);
