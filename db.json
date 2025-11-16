@@ -1,11 +1,11 @@
 {
   "produtos": [
     {
+      "id": "1",
       "nome": "Santos",
       "preco": 350,
       "imagemUrl": "assets/images/camisas/br/santos.png",
-      "tipo": "brasileirao",
-      "id": "1"
+      "tipo": "brasileirao"
     },
     {
       "id": "2",

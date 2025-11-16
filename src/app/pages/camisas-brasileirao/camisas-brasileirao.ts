@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
   selector: 'app-camisas-brasileirao',
   standalone: false,
   templateUrl: './camisas-brasileirao.html',
-  styleUrls: ['./camisas-brasileirao.css']
+  styleUrls: ['./camisas-brasileirao.css'],
 })
 export class CamisasBrasileirao implements OnInit {
   listaProdutos: Produto[] = [];
@@ -22,7 +22,7 @@ export class CamisasBrasileirao implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.produtoService.buscarProdutosPorTipo('brasileirao').subscribe(produtos => {
+    this.produtoService.buscarProdutosPorTipo('brasileirao').subscribe((produtos) => {
       this.listaProdutos = produtos;
     });
   }
@@ -47,11 +47,15 @@ export class CamisasBrasileirao implements OnInit {
 
     this.carrinhoService.adicionarItem(produto, tamanhoSelecionado, usuario.id!).subscribe({
       next: () => {
-        Swal.fire('Camisa adicionada!', `Camisa "${produto.nome}" (${tamanhoSelecionado}) adicionada.`, 'success');
+        Swal.fire(
+          'Camisa adicionada!',
+          `Camisa "${produto.nome}" (${tamanhoSelecionado}) adicionada.`,
+          'success'
+        );
       },
       error: () => {
         Swal.fire('Erro', 'Não foi possível adicionar ao carrinho.', 'error');
-      }
+      },
     });
   }
 
@@ -59,5 +63,3 @@ export class CamisasBrasileirao implements OnInit {
     return this.tamanhosSelecionados[produtoId] === tamanho;
   }
 }
-
-

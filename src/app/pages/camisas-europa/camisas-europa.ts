@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
   selector: 'app-camisas-europa',
   standalone: false,
   templateUrl: './camisas-europa.html',
-  styleUrls: ['./camisas-europa.css']
+  styleUrls: ['./camisas-europa.css'],
 })
 export class CamisasEuropa implements OnInit {
   listaProdutosEuropa: Produto[] = [];
@@ -22,7 +22,7 @@ export class CamisasEuropa implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.produtoService.buscarProdutosPorTipo('europa').subscribe(produtos => {
+    this.produtoService.buscarProdutosPorTipo('europa').subscribe((produtos) => {
       this.listaProdutosEuropa = produtos;
     });
   }
@@ -59,9 +59,7 @@ export class CamisasEuropa implements OnInit {
       },
       error: () => {
         Swal.fire('Erro', 'Não foi possível adicionar ao carrinho. Tente novamente.', 'error');
-      }
+      },
     });
   }
 }
-
-

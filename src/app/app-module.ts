@@ -32,7 +32,7 @@ import { FinalizarCompraComponent } from './pages/finalizar-compra/finalizar-com
     CarrinhoComponent,
     CamisasBrasileirao,
     CamisasEuropa,
-    FinalizarCompraComponent
+    FinalizarCompraComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,9 +40,9 @@ import { FinalizarCompraComponent } from './pages/finalizar-compra/finalizar-com
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
   ],
   providers: [],
-  bootstrap: [App]
+  bootstrap: [App],
 })
-export class AppModule { }
+export class AppModule {}

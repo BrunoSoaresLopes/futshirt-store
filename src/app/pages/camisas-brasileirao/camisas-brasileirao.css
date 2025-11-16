@@ -7,7 +7,7 @@
 }
 
 .btn-tamanho {
-  background-color: #0A2A08;
+  background-color: #0a2a08;
   border: 1px solid white;
   color: white;
   flex: 1;
@@ -17,12 +17,12 @@
 }
 
 .btn-tamanho.bg-white {
-  color: #0A2A08 !important;
+  color: #0a2a08 !important;
 }
 
 .btn-tamanho:hover {
   background-color: white;
-  color: #0A2A08 !important;
+  color: #0a2a08 !important;
 }
 
 .btn-add-carrinho {
@@ -32,7 +32,7 @@
 
 .swal2-confirm.btn-white {
   background-color: white !important;
-  color: #0A2A08 !important;
+  color: #0a2a08 !important;
   border: none;
   font-weight: bold;
   border-radius: 5px;
@@ -40,7 +40,7 @@
 }
 
 .swal2-confirm.swal-btn-custom {
-  background-color: #0A2A08 !important;
+  background-color: #0a2a08 !important;
   color: white !important;
   border: 1px solid white !important;
   font-weight: bold;
@@ -50,5 +50,5 @@
 
 .swal2-confirm.swal-btn-custom:hover {
   background-color: white !important;
-  color: #0A2A08 !important;
+  color: #0a2a08 !important;
 }

@@ -1,30 +1,53 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
   <div class="container px-4 px-lg-5">
-
     <a class="navbar-brand" routerLink="/">
-      <img src="assets/images/favicon.png" alt="FutShirt Logo" style="height: 110px;">
+      <img src="assets/images/favicon.png" alt="FutShirt Logo" style="height: 110px" />
     </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-
         <li class="nav-item me-3">
           <a class="nav-link active fs-5 text-white" aria-current="page" routerLink="/">Home</a>
         </li>
 
         <li class="nav-item dropdown me-3">
-          <a class="nav-link dropdown-toggle fs-5 text-white" id="camisasDropdown" href="#" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle fs-5 text-white"
+            id="camisasDropdown"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             Camisas
           </a>
-          <ul class="dropdown-menu" aria-labelledby="camisasDropdown" style="background-color: black;">
-            <li><a class="dropdown-item fs-6 text-white" routerLink="/camisas/brasileirao">Camisas Brasileirão</a></li>
-            <li><a class="dropdown-item fs-6 text-white" routerLink="/camisas/europa">Camisas Europa</a></li>
+          <ul
+            class="dropdown-menu"
+            aria-labelledby="camisasDropdown"
+            style="background-color: black"
+          >
+            <li>
+              <a class="dropdown-item fs-6 text-white" routerLink="/camisas/brasileirao"
+                >Camisas Brasileirão</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item fs-6 text-white" routerLink="/camisas/europa"
+                >Camisas Europa</a
+              >
+            </li>
           </ul>
         </li>
 
@@ -49,29 +72,36 @@
           <a class="btn btn-outline-light me-2 d-flex align-items-center" routerLink="/login">
             <i class="bi-person-fill me-1"></i>Entrar
           </a>
-          <a class="btn btn-outline-light" routerLink="/cadastrar">
-            Cadastrar-se
-          </a>
+          <a class="btn btn-outline-light" routerLink="/cadastrar"> Cadastrar-se </a>
         </div>
       </ng-container>
 
-      <ng-container *ngIf="(usuarioLogado$ | async) as usuario">
+      <ng-container *ngIf="usuarioLogado$ | async as usuario">
         <div class="nav-item dropdown">
-
-          <a class="nav-link dropdown-toggle fs-5 text-white" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle fs-5 text-white"
+            href="#"
+            id="navbarUserDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             <i class="bi-person-fill me-1"></i> Olá, {{ usuario.nome.split(' ')[0] }}
           </a>
 
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserDropdown" style="background-color: black;">
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="navbarUserDropdown"
+            style="background-color: black"
+          >
             <li>
-              <a class="dropdown-item fs-6 text-danger" (click)="sair()" style="cursor: pointer;">
+              <a class="dropdown-item fs-6 text-danger" (click)="sair()" style="cursor: pointer">
                 Sair
               </a>
             </li>
           </ul>
         </div>
       </ng-container>
-      
-      </div>
+    </div>
   </div>
 </nav>

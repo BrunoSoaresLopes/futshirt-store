@@ -7,10 +7,9 @@ import { UsuarioService } from '../../services/usuario';
   selector: 'app-login',
   standalone: false,
   templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  styleUrls: ['./login.css'],
 })
 export class LoginComponent implements OnInit {
-
   loginForm: FormGroup;
 
   constructor(
@@ -20,7 +19,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required]]
+      senha: ['', [Validators.required]],
     });
   }
 
@@ -39,7 +38,7 @@ export class LoginComponent implements OnInit {
     const email = this.loginForm.value.email;
     const senha = this.loginForm.value.senha;
 
-    this.usuarioService.login(email, senha).subscribe(usuario => {
+    this.usuarioService.login(email, senha).subscribe((usuario) => {
       if (usuario) {
         this.router.navigate(['/']);
       } else {
@@ -48,4 +47,3 @@ export class LoginComponent implements OnInit {
     });
   }
 }
-

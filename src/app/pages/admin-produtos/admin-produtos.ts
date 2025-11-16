@@ -14,7 +14,6 @@ import { Produto } from '../../models/produto.model';
   standalone: false,
 })
 export class AdminProdutosComponent implements OnInit {
-
   // Formulário reativo
   produtoForm: FormGroup;
 
@@ -35,11 +34,8 @@ export class AdminProdutosComponent implements OnInit {
     this.produtoForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       preco: [null, [Validators.required, Validators.min(0.01)]],
-      imagemUrl: ['', [
-        Validators.required,
-        Validators.pattern('^(assets/images/|http|https).*')
-      ]],
-      tipo: ['brasileirao', [Validators.required]]
+      imagemUrl: ['', [Validators.required, Validators.pattern('^(assets/images/|http|https).*')]],
+      tipo: ['brasileirao', [Validators.required]],
     });
   }
 
@@ -60,7 +56,7 @@ export class AdminProdutosComponent implements OnInit {
   }
 
   carregarProdutos(): void {
-    this.produtoService.getTodosProdutos().subscribe(produtos => {
+    this.produtoService.getTodosProdutos().subscribe((produtos) => {
       this.listaTodosProdutos = produtos;
       this.produtosExibidos = [...this.listaTodosProdutos];
       this.termoBusca = '';
@@ -84,8 +80,10 @@ export class AdminProdutosComponent implements OnInit {
       });
     } else {
       // Adicionar novo produto
-      this.produtoService.adicionarProduto(dadosProduto).subscribe(produtoAdicionado => {
-        alert(`Produto "${produtoAdicionado.nome}" adicionado com sucesso! (ID: ${produtoAdicionado.id})`);
+      this.produtoService.adicionarProduto(dadosProduto).subscribe((produtoAdicionado) => {
+        alert(
+          `Produto "${produtoAdicionado.nome}" adicionado com sucesso! (ID: ${produtoAdicionado.id})`
+        );
         this.produtoForm.reset({ nome: '', preco: null, imagemUrl: '', tipo: 'brasileirao' });
         this.carregarProdutos();
       });
@@ -109,7 +107,7 @@ export class AdminProdutosComponent implements OnInit {
       nome: produto.nome,
       preco: produto.preco,
       imagemUrl: produto.imagemUrl,
-      tipo: produto.tipo
+      tipo: produto.tipo,
     });
     // Opcional: rolar até o formulário
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -117,15 +115,15 @@ export class AdminProdutosComponent implements OnInit {
 
   // Busca por nome (parcial) usando JSON-Server (?nome_like=)
   buscarProdutos(): void {
-    const termo = this.termoBusca.trim();
+    const termo = this.termoBusca.trim().toLowerCase();
+
     if (!termo) {
       this.produtosExibidos = [...this.listaTodosProdutos];
       return;
     }
 
-    this.produtoService.buscarProdutoPorNome(termo).subscribe(produtosEncontrados => {
-      this.produtosExibidos = produtosEncontrados;
-    });
+    this.produtosExibidos = this.listaTodosProdutos.filter((produto) =>
+      produto.nome.toLowerCase().includes(termo)
+    );
   }
 }
-

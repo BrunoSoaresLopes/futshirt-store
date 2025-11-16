@@ -4,7 +4,7 @@ import { CamisasBrasileirao } from './camisas-brasileirao';
 import { ProdutoService } from '../../services/produto';
 import { CarrinhoService } from '../../services/carrinho';
 
-   //Retorna um array vazio para teste
+//Retorna um array vazio para teste
 class MockProdutoService {
   getProdutosBrasileirao() {
     return [];
@@ -27,10 +27,9 @@ describe('CamisasBrasileirao', () => {
       // Fornece os Mocks para o TestBed
       providers: [
         { provide: ProdutoService, useClass: MockProdutoService },
-        { provide: CarrinhoService, useClass: MockCarrinhoService }
-      ]
-    })
-    .compileComponents();
+        { provide: CarrinhoService, useClass: MockCarrinhoService },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CamisasBrasileirao);
     component = fixture.componentInstance;

@@ -20,10 +20,9 @@ export interface CarrinhoItemCompleto {
   selector: 'app-finalizar-compra',
   standalone: false,
   templateUrl: './finalizar-compra.html',
-  styleUrls: ['./finalizar-compra.css']
+  styleUrls: ['./finalizar-compra.css'],
 })
 export class FinalizarCompraComponent implements OnInit, OnDestroy {
-
   checkoutForm: FormGroup;
   itensVisiveis: CarrinhoItemCompleto[] = [];
   totalProdutos: number = 0;
@@ -54,7 +53,7 @@ export class FinalizarCompraComponent implements OnInit, OnDestroy {
       nomeCartao: ['', Validators.required],
       numeroCartao: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
       validadeCartao: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]],
-      cvv: ['', [Validators.required, Validators.pattern(/^\d{3,4}$/)]]
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3,4}$/)]],
     });
   }
 
@@ -69,7 +68,7 @@ export class FinalizarCompraComponent implements OnInit, OnDestroy {
     // Pré-preenche nome e e-mail do usuário logado
     this.checkoutForm.patchValue({
       nomeCompleto: usuario.nome,
-      email: usuario.email
+      email: usuario.email,
     });
 
     // Pré-preenche o CEP vindo do carrinho (se existir)
@@ -78,7 +77,7 @@ export class FinalizarCompraComponent implements OnInit, OnDestroy {
       this.checkoutForm.patchValue({ cep: cepCarrinho });
 
       // Calcula frete
-      this.freteService.calcularFrete(cepCarrinho).subscribe(resultado => {
+      this.freteService.calcularFrete(cepCarrinho).subscribe((resultado) => {
         if (resultado) {
           this.opcaoFrete = resultado;
         }
@@ -88,30 +87,32 @@ export class FinalizarCompraComponent implements OnInit, OnDestroy {
     // Assina itens do carrinho e monta a lista visível com total
     this.subs.add(
       this.carrinhoService.itensCarrinho$.subscribe((itens: CarrinhoItem[]) => {
-        const itensDoUsuario = itens.filter(i => i.usuarioId === usuario.id);
+        const itensDoUsuario = itens.filter((i) => i.usuarioId === usuario.id);
         this.itensVisiveis = [];
         this.totalProdutos = 0;
 
-        const observables = itensDoUsuario.map(item =>
-          this.produtoService.getProdutoPorId(item.produtoId).pipe(
-            map((produto: Produto) => ({ item, produto }))
-          )
+        const observables = itensDoUsuario.map((item) =>
+          this.produtoService
+            .getProdutoPorId(item.produtoId)
+            .pipe(map((produto: Produto) => ({ item, produto })))
         );
 
         if (observables.length > 0) {
-          forkJoin(observables).subscribe((resultados: { item: CarrinhoItem, produto: Produto }[]) => {
-            let novoTotal = 0;
-            this.itensVisiveis = resultados.map((r: { item: CarrinhoItem, produto: Produto }) => {
-              novoTotal += r.produto.preco * r.item.quantidade;
-              return {
-                itemId: r.item.id!,
-                produto: r.produto,
-                tamanho: r.item.tamanho,
-                quantidade: r.item.quantidade
-              };
-            });
-            this.totalProdutos = novoTotal;
-          });
+          forkJoin(observables).subscribe(
+            (resultados: { item: CarrinhoItem; produto: Produto }[]) => {
+              let novoTotal = 0;
+              this.itensVisiveis = resultados.map((r: { item: CarrinhoItem; produto: Produto }) => {
+                novoTotal += r.produto.preco * r.item.quantidade;
+                return {
+                  itemId: r.item.id!,
+                  produto: r.produto,
+                  tamanho: r.item.tamanho,
+                  quantidade: r.item.quantidade,
+                };
+              });
+              this.totalProdutos = novoTotal;
+            }
+          );
         } else {
           this.itensVisiveis = [];
           this.totalProdutos = 0;
@@ -148,6 +149,3 @@ export class FinalizarCompraComponent implements OnInit, OnDestroy {
     }
   }
 }
-
-
-

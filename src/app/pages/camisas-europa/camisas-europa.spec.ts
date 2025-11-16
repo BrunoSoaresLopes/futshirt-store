@@ -11,8 +11,7 @@ class MockProdutoService {
 }
 
 class MockCarrinhoService {
-  adicionarItem(produto: any, tamanho: string) {
-  }
+  adicionarItem(produto: any, tamanho: string) {}
 }
 
 describe('CamisasEuropa', () => {
@@ -25,10 +24,9 @@ describe('CamisasEuropa', () => {
       // Fornecer os Mocks para o TestBed
       providers: [
         { provide: ProdutoService, useClass: MockProdutoService },
-        { provide: CarrinhoService, useClass: MockCarrinhoService }
-      ]
-    })
-    .compileComponents();
+        { provide: CarrinhoService, useClass: MockCarrinhoService },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CamisasEuropa);
     component = fixture.componentInstance;

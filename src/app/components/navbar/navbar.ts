@@ -7,10 +7,9 @@ import { UsuarioService } from '../../services/usuario';
   selector: 'app-navbar',
   standalone: false,
   templateUrl: './navbar.html',
-  styleUrls: ['./navbar.css']
+  styleUrls: ['./navbar.css'],
 })
 export class NavbarComponent {
-
   // Observable para saber quem está logado
   usuarioLogado$: Observable<Usuario | null>;
 

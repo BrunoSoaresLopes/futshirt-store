@@ -8,9 +8,8 @@ describe('FinalizarCompra', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FinalizarCompraComponent]
-    })
-    .compileComponents();
+      declarations: [FinalizarCompraComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FinalizarCompraComponent);
     component = fixture.componentInstance;

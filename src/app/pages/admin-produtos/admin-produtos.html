@@ -1,6 +1,5 @@
-<section class="py-5 text-white" style="background-color: #0A2A08;">
+<section class="py-5 text-white" style="background-color: #0a2a08">
   <div class="container px-5">
-
     <!-- Formulário de adicionar/editar -->
     <div class="card mb-5 bg-dark text-white">
       <div class="card-header">
@@ -9,26 +8,43 @@
         </h2>
       </div>
       <div class="card-body">
-
         <form [formGroup]="produtoForm" (ngSubmit)="onSubmitAdicionar()">
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="nomeProduto" class="form-label">Nome</label>
-              <input type="text" class="form-control" id="nomeProduto"
-                     formControlName="nome"
-                     [ngClass]="{ 'is-invalid': f['nome'].invalid && f['nome'].touched }">
-              <div *ngIf="f['nome'].invalid && f['nome'].touched" class="invalid-feedback d-block small">
+              <input
+                type="text"
+                class="form-control"
+                id="nomeProduto"
+                formControlName="nome"
+                [ngClass]="{ 'is-invalid': f['nome'].invalid && f['nome'].touched }"
+              />
+              <div
+                *ngIf="f['nome'].invalid && f['nome'].touched"
+                class="invalid-feedback d-block small"
+              >
                 <div *ngIf="f['nome'].errors?.['required']">Nome é obrigatório.</div>
-                <div *ngIf="f['nome'].errors?.['minlength']">Nome deve ter no mínimo 3 caracteres.</div>
+                <div *ngIf="f['nome'].errors?.['minlength']">
+                  Nome deve ter no mínimo 3 caracteres.
+                </div>
               </div>
             </div>
 
             <div class="col-md-6 mb-3">
               <label for="precoProduto" class="form-label">Preço (R$)</label>
-              <input type="number" class="form-control" id="precoProduto"
-                     formControlName="preco" min="0.01" step="0.01"
-                     [ngClass]="{ 'is-invalid': f['preco'].invalid && f['preco'].touched }">
-              <div *ngIf="f['preco'].invalid && f['preco'].touched" class="invalid-feedback d-block small">
+              <input
+                type="number"
+                class="form-control"
+                id="precoProduto"
+                formControlName="preco"
+                min="0.01"
+                step="0.01"
+                [ngClass]="{ 'is-invalid': f['preco'].invalid && f['preco'].touched }"
+              />
+              <div
+                *ngIf="f['preco'].invalid && f['preco'].touched"
+                class="invalid-feedback d-block small"
+              >
                 <div *ngIf="f['preco'].errors?.['required']">Preço é obrigatório.</div>
                 <div *ngIf="f['preco'].errors?.['min']">Preço deve ser maior que zero.</div>
               </div>
@@ -36,51 +52,79 @@
           </div>
 
           <div class="row">
-             <div class="col-md-6 mb-3">
+            <div class="col-md-6 mb-3">
               <label for="tipoProduto" class="form-label">Tipo</label>
-              <select class="form-select" id="tipoProduto"
-                      formControlName="tipo"
-                      [ngClass]="{ 'is-invalid': f['tipo'].invalid && f['tipo'].touched }">
+              <select
+                class="form-select"
+                id="tipoProduto"
+                formControlName="tipo"
+                [ngClass]="{ 'is-invalid': f['tipo'].invalid && f['tipo'].touched }"
+              >
                 <option value="brasileirao">Brasileirão</option>
                 <option value="europa">Europa</option>
               </select>
-              <div *ngIf="f['tipo'].invalid && f['tipo'].touched" class="invalid-feedback d-block small">
+              <div
+                *ngIf="f['tipo'].invalid && f['tipo'].touched"
+                class="invalid-feedback d-block small"
+              >
                 Tipo é obrigatório.
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <label for="imagemUrlProduto" class="form-label">URL da Imagem</label>
-              <input type="text" class="form-control" id="imagemUrlProduto"
-                     formControlName="imagemUrl" placeholder="Ex: assets/images/camisas/br/nova.png"
-                     [ngClass]="{ 'is-invalid': f['imagemUrl'].invalid && f['imagemUrl'].touched }">
-              <div *ngIf="f['imagemUrl'].invalid && f['imagemUrl'].touched" class="invalid-feedback d-block small">
+              <input
+                type="text"
+                class="form-control"
+                id="imagemUrlProduto"
+                formControlName="imagemUrl"
+                placeholder="Ex: assets/images/camisas/br/nova.png"
+                [ngClass]="{ 'is-invalid': f['imagemUrl'].invalid && f['imagemUrl'].touched }"
+              />
+              <div
+                *ngIf="f['imagemUrl'].invalid && f['imagemUrl'].touched"
+                class="invalid-feedback d-block small"
+              >
                 <div *ngIf="f['imagemUrl'].errors?.['required']">URL da imagem é obrigatória.</div>
-                <div *ngIf="f['imagemUrl'].errors?.['pattern']">URL inválida (deve começar com 'assets/images/' ou 'http').</div>
+                <div *ngIf="f['imagemUrl'].errors?.['pattern']">
+                  URL inválida (deve começar com 'assets/images/' ou 'http').
+                </div>
               </div>
             </div>
           </div>
 
           <div class="text-center">
-             <button type="submit" class="btn btn-success" [disabled]="produtoForm.invalid">
-               {{ produtoEditando ? 'Salvar Alterações' : 'Adicionar Produto' }}
-             </button>
-             <button *ngIf="produtoEditando" type="button" class="btn btn-secondary ms-2"
-                     (click)="produtoEditando = null; produtoForm.reset({ nome: '', preco: null, imagemUrl: '', tipo: 'brasileirao' })">
-               Cancelar
-             </button>
+            <button type="submit" class="btn btn-success" [disabled]="produtoForm.invalid">
+              {{ produtoEditando ? 'Salvar Alterações' : 'Adicionar Produto' }}
+            </button>
+            <button
+              *ngIf="produtoEditando"
+              type="button"
+              class="btn btn-secondary ms-2"
+              (click)="
+                produtoEditando = null;
+                produtoForm.reset({ nome: '', preco: null, imagemUrl: '', tipo: 'brasileirao' })
+              "
+            >
+              Cancelar
+            </button>
           </div>
         </form>
       </div>
     </div>
 
-    <hr class="border-light my-5">
+    <hr class="border-light my-5" />
 
     <!-- Gerenciar produtos -->
     <h2 class="text-center mb-4">Gerenciar Produtos</h2>
 
     <div class="input-group mb-4">
-      <input type="text" class="form-control" placeholder="Buscar produto por nome..."
-             [(ngModel)]="termoBusca" (input)="buscarProdutos()">
+      <input
+        type="text"
+        class="form-control"
+        name="Buscar produto por nome..."
+        [(ngModel)]="termoBusca"
+        (input)="buscarProdutos()"
+      />
       <button class="btn btn-outline-light" type="button" (click)="buscarProdutos()">Buscar</button>
     </div>
 
@@ -100,17 +144,21 @@
           <tr *ngFor="let produto of produtosExibidos">
             <th scope="row">{{ produto.id }}</th>
             <td>
-              <img [src]="produto.imagemUrl" [alt]="produto.nome" style="width: 50px; height: auto;">
+              <img
+                [src]="produto.imagemUrl"
+                [alt]="produto.nome"
+                style="width: 50px; height: auto"
+              />
             </td>
             <td>{{ produto.nome }}</td>
-            <td>{{ produto.preco | currency:'BRL' }}</td>
+            <td>{{ produto.preco | currency : 'BRL' }}</td>
             <td>{{ produto.tipo }}</td>
             <td>
               <button class="btn btn-sm btn-danger" (click)="excluir(produto.id)">
                 <i class="bi bi-trash-fill"></i> Excluir
               </button>
               <button class="btn btn-sm btn-warning ms-2" (click)="editar(produto)">
-                 <i class="bi bi-pencil-fill"></i> Editar
+                <i class="bi bi-pencil-fill"></i> Editar
               </button>
             </td>
           </tr>
@@ -122,4 +170,3 @@
     </div>
   </div>
 </section>
-

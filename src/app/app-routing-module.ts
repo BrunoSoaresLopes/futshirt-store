@@ -20,11 +20,11 @@ const routes: Routes = [
   { path: 'admin/produtos', component: AdminProdutosComponent },
   { path: 'camisas/brasileirao', component: CamisasBrasileirao },
   { path: 'camisas/europa', component: CamisasEuropa },
-  { path: 'finalizar-compra', component: FinalizarCompraComponent }
+  { path: 'finalizar-compra', component: FinalizarCompraComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

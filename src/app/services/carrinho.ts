@@ -13,10 +13,9 @@ export interface CarrinhoItem {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CarrinhoService {
-
   private apiUrl = 'http://localhost:3000/carrinho';
 
   private itensCarrinhoSubject = new BehaviorSubject<CarrinhoItem[]>([]);
@@ -37,8 +36,8 @@ export class CarrinhoService {
 
   carregarItensDoServidor(usuarioId: string): Observable<CarrinhoItem[]> {
     return this.http.get<CarrinhoItem[]>(`${this.apiUrl}?usuarioId=${usuarioId}`).pipe(
-      tap(itens => this.itensCarrinhoSubject.next(itens)),
-      catchError(err => throwError(() => err))
+      tap((itens) => this.itensCarrinhoSubject.next(itens)),
+      catchError((err) => throwError(() => err))
     );
   }
 
@@ -47,20 +46,22 @@ export class CarrinhoService {
       take(1),
       switchMap((itens: CarrinhoItem[]) => {
         const itemExistente = itens.find(
-          item => item.produtoId === produto.id && item.tamanho === tamanho && item.usuarioId === usuarioId
+          (item) =>
+            item.produtoId === produto.id &&
+            item.tamanho === tamanho &&
+            item.usuarioId === usuarioId
         );
 
         if (itemExistente) {
-          return this.http.patch<CarrinhoItem>(
-            `${this.apiUrl}/${itemExistente.id}`,
-            { quantidade: itemExistente.quantidade + 1 }
-          );
+          return this.http.patch<CarrinhoItem>(`${this.apiUrl}/${itemExistente.id}`, {
+            quantidade: itemExistente.quantidade + 1,
+          });
         } else {
           const novoItem: Omit<CarrinhoItem, 'id'> = {
             produtoId: produto.id,
             tamanho,
             quantidade: 1,
-            usuarioId
+            usuarioId,
           };
           return this.http.post<CarrinhoItem>(this.apiUrl, novoItem);
         }
@@ -80,24 +81,26 @@ export class CarrinhoService {
     return this.itensCarrinho$.pipe(
       take(1),
       switchMap((itens: CarrinhoItem[]) => {
-        const itensDoUsuario = itens.filter(item => item.usuarioId === usuarioId);
-        const deleteRequests = itensDoUsuario.map(item =>
+        const itensDoUsuario = itens.filter((item) => item.usuarioId === usuarioId);
+        const deleteRequests = itensDoUsuario.map((item) =>
           this.http.delete<void>(`${this.apiUrl}/${item.id}`)
         );
         if (deleteRequests.length === 0) return of(null);
         return forkJoin(deleteRequests).pipe(map(() => null));
       }),
       tap(() => {
-        const itensRestantes = this.itensCarrinhoSubject.getValue().filter(item => item.usuarioId !== usuarioId);
+        const itensRestantes = this.itensCarrinhoSubject
+          .getValue()
+          .filter((item) => item.usuarioId !== usuarioId);
         this.itensCarrinhoSubject.next(itensRestantes);
       })
     );
   }
 
   getTotal(usuarioId: string): number {
-    const itens = this.itensCarrinhoSubject.getValue().filter(item => item.usuarioId === usuarioId);
-    return itens.reduce((acc, item) => acc + (item.quantidade), 0);
+    const itens = this.itensCarrinhoSubject
+      .getValue()
+      .filter((item) => item.usuarioId === usuarioId);
+    return itens.reduce((acc, item) => acc + item.quantidade, 0);
   }
 }
-
-

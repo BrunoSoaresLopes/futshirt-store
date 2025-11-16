@@ -5,20 +5,16 @@ import { Usuario } from '../models/usuario.model';
 import { CarrinhoService } from './carrinho';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuarioService {
-
   private apiUrl = 'http://localhost:3000/usuarios';
 
   // BehaviorSubject para gerenciar o estado de login
   private usuarioLogadoSubject = new BehaviorSubject<Usuario | null>(null);
   public usuarioLogado$ = this.usuarioLogadoSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private carrinhoService: CarrinhoService
-  ) {}
+  constructor(private http: HttpClient, private carrinhoService: CarrinhoService) {}
 
   // Retorna o usuário logado atualmente
   public get usuarioLogado(): Usuario | null {
@@ -33,7 +29,7 @@ export class UsuarioService {
   // Faz login
   login(email: string, senha: string): Observable<Usuario | null> {
     return this.http.get<Usuario[]>(`${this.apiUrl}?email=${email}&senha=${senha}`).pipe(
-      map(usuarios => {
+      map((usuarios) => {
         if (usuarios.length > 0) {
           const usuario = usuarios[0];
           this.usuarioLogadoSubject.next(usuario);
@@ -61,5 +57,3 @@ export class UsuarioService {
     }
   }
 }
-
-

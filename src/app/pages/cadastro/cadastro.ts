@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class CadastroComponent implements OnInit {
-
   cadastroForm: FormGroup;
 
   constructor(
@@ -22,7 +21,7 @@ export class CadastroComponent implements OnInit {
     this.cadastroForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(6)]]
+      senha: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -48,5 +47,3 @@ export class CadastroComponent implements OnInit {
     });
   }
 }
-
-
