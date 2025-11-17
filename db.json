@@ -125,13 +125,6 @@
       "preco": 180,
       "imagemUrl": "assets/images/camisas/europa/psg.png",
       "tipo": "europa"
-    },
-    {
-      "id": "df97",
-      "nome": "América Mineiro",
-      "preco": 200,
-      "imagemUrl": "https://d9aearf180tto.cloudfront.net/Custom/Content/Products/90/20/90206_of-camisa-jogo-1-afc-fem-pr-19001-a0207_l4_638793529225235037.webp",
-      "tipo": "brasileirao"
     }
   ],
   "usuarios": [
@@ -168,6 +161,13 @@
       "produtoId": "2",
       "tamanho": "G",
       "quantidade": 1
+    },
+    {
+      "id": "8e01",
+      "produtoId": "2",
+      "tamanho": "P",
+      "quantidade": 1,
+      "usuarioId": "7a00"
     }
   ],
   "frete": [

@@ -46,13 +46,13 @@ export class UsuarioService {
     );
   }
 
-  /** Faz logout */
+  // Faz logout
   logout(): void {
     const usuario = this.usuarioLogado;
     this.usuarioLogadoSubject.next(null);
 
     if (usuario) {
-      // 🔥 Limpa carrinho do usuário ao deslogar
+      // Limpa carrinho do usuário ao deslogar
       this.carrinhoService.limparCarrinho(usuario.id!).subscribe();
     }
   }

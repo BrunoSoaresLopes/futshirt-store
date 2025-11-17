@@ -113,7 +113,7 @@ export class AdminProdutosComponent implements OnInit {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Busca por nome (parcial) usando JSON-Server (?nome_like=)
+  // Busca por nome
   buscarProdutos(): void {
     const termo = this.termoBusca.trim().toLowerCase();
 
